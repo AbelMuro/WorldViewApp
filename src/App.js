@@ -1,16 +1,19 @@
 import React from 'react';
-import { SafeAreaView} from 'react-native';
+import { Router, Scene, Stack } from 'react-native-router-flux';
+import { SafeAreaView, ScrollView} from 'react-native';
 import HeaderBar from './Components/HeaderBar';
 import MenuBar from './Components/MenuBar';
 import Home from './Pages/Home';
 
 function App() {
   return (
-    <SafeAreaView>
-        <HeaderBar/>     
-        <MenuBar/> 
-        <Home/>        
-    </SafeAreaView>
+        <>
+            <Router>  
+                <Scene key='root'>        
+                  <Scene key='home' component={Home} initial hideNavBar/>            
+                </Scene> 
+            </Router>      
+        </>
   )
 }
 

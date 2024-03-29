@@ -28,7 +28,7 @@ function MenuBar() {
 
     useEffect(() => {
         if(open)
-            height.value = withTiming(250, {
+            height.value = withTiming(360, {
                 duration: 200,
                 easing: Easing.linear
             });
