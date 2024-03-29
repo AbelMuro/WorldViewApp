@@ -1,5 +1,8 @@
 import React from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import {Actions} from 'react-native-router-flux';
+import HeaderBar from '~/Components/HeaderBar';
+import MenuBar from '~/Components/MenuBar';
 import {Title, 
     AllVideos, 
     VideoContainer, 
@@ -17,38 +20,50 @@ function Home() {
     const videosRef = collection(db, "developers collection/allVideos/videoCollection");
     const [videos, loading, error] = useCollectionData(videosRef);
 
+    const handleVideo = (url) => {
+        console.log(url)
+        //Actions.video({url})
+    }
+
     return(
-        <ScrollView>
-            <Title>
-                Enjoy the videos uploaded by our users!
-            </Title>  
-            {loading ? <Text> Loading...</Text> :    
-                <AllVideos>
-                    {videos.map((video) => {
-                        return (
-                            <VideoContainer key={video.videoID}>
-                                <VideoThumbnail
-                                    source={{uri: video.thumbnail}}/>
-                                <VideoTitle>
-                                    {video.title}
-                                </VideoTitle>
-                                <View style={{display: 'flex', gap: 10, flexDirection: 'row', alignItems: 'center'}}>
-                                    <VideoOwnerImage
-                                        source={{uri: video.userImage}}
-                                    />
-                                    <VideoOwner>
-                                        {video.username}
-                                    </VideoOwner>
-                                </View>
-                                <PostedDate>
-                                    Posted on: {video.timeCreated}
-                                </PostedDate>
-                            </VideoContainer>
-                        )
-                    })}                   
-                </AllVideos>  
-            }  
-        </ScrollView>
+        <SafeAreaView>
+            <HeaderBar/>
+            <MenuBar/>
+            <ScrollView>
+                <Title>
+                    Enjoy the videos uploaded by our users!
+                </Title>  
+                {loading ? <Text> Loading...</Text> :    
+                    <AllVideos>
+                        {videos.map((video) => {
+                            return (
+                                <VideoContainer key={video.videoID}>
+                                    <TouchableOpacity onPress={() => handleVideo(video.url)}>
+                                        <VideoThumbnail
+                                            source={{uri: video.thumbnail}}/>                                        
+                                    </TouchableOpacity>
+                                    <VideoTitle>
+                                        {video.title}
+                                    </VideoTitle>
+                                    <View style={{display: 'flex', gap: 10, flexDirection: 'row', alignItems: 'center'}}>
+                                        <VideoOwnerImage
+                                            source={{uri: video.userImage}}
+                                        />
+                                        <VideoOwner>
+                                            {video.username}
+                                        </VideoOwner>
+                                    </View>
+                                    <PostedDate>
+                                        Posted on: {video.timeCreated}
+                                    </PostedDate>
+                                </VideoContainer>
+                            )
+                        })}                   
+                    </AllVideos>  
+                }  
+            </ScrollView>        
+        </SafeAreaView>
+
     )
 }
 

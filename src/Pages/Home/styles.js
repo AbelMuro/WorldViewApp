@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Title = styled.Text `
+    color: black;
     font-size: 25px;
     font-weight: 700;
     font-family: CrimsonText;
@@ -13,12 +14,12 @@ export const AllVideos = styled.View`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 35px;
+    gap: 85px;
     margin: auto;
 `
 
 export const VideoContainer = styled.View`
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,6 +28,7 @@ export const VideoContainer = styled.View`
 `
 
 export const VideoTitle = styled.Text`
+    color: black;
     font-family: CrimsonText;
     font-size: 16px;
     font-weight: 400;
@@ -46,12 +48,14 @@ export const VideoOwnerImage = styled.Image `
 `
 
 export const VideoOwner = styled.Text`
+    color: black;
     font-family: CrimsonText;
     font-size: 16px;
     font-weight: 700;
 `
 
 export const PostedDate = styled.Text`
+    color: black;
     font-family: CrimsonText;
     font-size: 16px;
 `
