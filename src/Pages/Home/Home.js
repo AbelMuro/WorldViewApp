@@ -23,6 +23,7 @@ function Home() {
         Actions.video(video)
     }
 
+
     return(
         <SafeAreaView>
             <HeaderBar/>
