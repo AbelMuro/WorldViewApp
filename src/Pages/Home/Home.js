@@ -14,6 +14,7 @@ import {Title,
 import {useCollectionData} from 'react-firebase-hooks/firestore';    
 import {collection} from 'firebase/firestore';
 import {db} from '~/Firebase';
+import  Config from 'react-native-config';
 
 function Home() {
     const videosRef = collection(db, "developers collection/allVideos/videoCollection");
@@ -22,7 +23,7 @@ function Home() {
     const handleVideo = (video) => {
         Actions.video(video)
     }
-    console.log(process.env)
+    console.log(Config.apiKey)
 
     return(
         <SafeAreaView>
