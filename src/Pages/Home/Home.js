@@ -15,14 +15,12 @@ import {useCollectionData} from 'react-firebase-hooks/firestore';
 import {collection} from 'firebase/firestore';
 import {db} from '~/Firebase';
 
-
 function Home() {
     const videosRef = collection(db, "developers collection/allVideos/videoCollection");
     const [videos, loading, error] = useCollectionData(videosRef);
 
-    const handleVideo = (url) => {
-        console.log(url)
-        //Actions.video({url})
+    const handleVideo = (video) => {
+        Actions.video(video)
     }
 
     return(
@@ -38,7 +36,7 @@ function Home() {
                         {videos.map((video) => {
                             return (
                                 <VideoContainer key={video.videoID}>
-                                    <TouchableOpacity onPress={() => handleVideo(video.url)}>
+                                    <TouchableOpacity onPress={() => handleVideo(video)}>
                                         <VideoThumbnail
                                             source={{uri: video.thumbnail}}/>                                        
                                     </TouchableOpacity>
