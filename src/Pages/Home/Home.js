@@ -22,6 +22,7 @@ function Home() {
     const handleVideo = (video) => {
         Actions.video(video)
     }
+    console.log(process.env)
 
     return(
         <SafeAreaView>
