@@ -10,6 +10,7 @@
               }
             ]
           }
-        ]
+        ],
+        ["transform-inline-environment-variables"]
       ]
     }
