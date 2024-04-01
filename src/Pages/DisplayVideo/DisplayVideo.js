@@ -14,6 +14,9 @@ import {
     PostedOn
 } from './styles.js';
 
+
+//now i need to create the 'other videos' for the user
+
 function DisplayVideo({url, thumbnail, title, userImage, username, timeCreated, userID, videoID}) {
 
     useEffect(() => {
@@ -24,7 +27,7 @@ function DisplayVideo({url, thumbnail, title, userImage, username, timeCreated, 
     return(
         <SafeAreaView>
             <HeaderBar back={true}/>
-            <MenuBar/>
+            <MenuBar maxHeight={250}/>
             <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
                 <Video
                     source={{uri: url}}

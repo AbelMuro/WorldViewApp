@@ -4,7 +4,7 @@ import {Bar, MenuLink, LinkText, Line} from './styles.js';
 import {SvgXml} from 'react-native-svg'
 import icons from './icons'
 
-function MenuBar() {
+function MenuBar({maxHeight}) {
     const [open, setOpen] = useState(false);
     const height = useSharedValue(0);
     const skipFirstRender = useRef(true);
@@ -34,7 +34,7 @@ function MenuBar() {
         }
 
         if(open)
-            height.value = withTiming(350, {
+            height.value = withTiming(maxHeight, {
                 duration: 200,
                 easing: Easing.linear
             });
