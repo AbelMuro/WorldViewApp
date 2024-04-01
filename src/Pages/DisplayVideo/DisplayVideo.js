@@ -27,7 +27,7 @@ function DisplayVideo({url, thumbnail, title, userImage, username, timeCreated, 
     return(
         <SafeAreaView>
             <HeaderBar back={true}/>
-            <MenuBar maxHeight={250}/>
+            <MenuBar/>
             <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
                 <View>
                     <Video

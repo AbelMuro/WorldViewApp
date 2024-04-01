@@ -4,27 +4,13 @@ import {Bar, MenuLink, LinkText, Line} from './styles.js';
 import {SvgXml} from 'react-native-svg'
 import icons from './icons'
 
-function MenuBar({maxHeight}) {
+function MenuBar() {
     const [open, setOpen] = useState(false);
     const height = useSharedValue(0);
     const skipFirstRender = useRef(true);
 
     const handleMenu = () => {
       setOpen(!open);
-    }
-
-    const renderLink = ({item}) => {
-        return(
-            <MenuLink>
-                <LinkText>
-                    {item}
-                </LinkText>
-            </MenuLink>
-        )
-    }
-
-    const separator = () => {
-        return (<Line></Line>)
     }
 
     useEffect(() => {

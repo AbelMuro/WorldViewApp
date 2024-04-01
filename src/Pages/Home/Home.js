@@ -8,7 +8,7 @@ function Home() {
     return(
         <SafeAreaView>
             <HeaderBar/>
-            <MenuBar maxHeight={350}/>
+            <MenuBar/>
             <DisplayAllVideos/>
         </SafeAreaView>
 
