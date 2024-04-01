@@ -34,7 +34,7 @@ function MenuBar({maxHeight}) {
         }
 
         if(open)
-            height.value = withTiming(maxHeight, {
+            height.value = withTiming(240, {
                 duration: 200,
                 easing: Easing.linear
             });
@@ -51,16 +51,26 @@ function MenuBar({maxHeight}) {
             <Bar onPress={handleMenu}>
                 <SvgXml xml={icons['menu']} width='55px' height='25px' />
             </Bar>   
-            <Animated.FlatList
-                data={['All', 'Music', 'Funny', 'Sports', 'News', 'Other']}
-                renderItem={renderLink}
-                ItemSeparatorComponent={separator}
+            <Animated.View
                 style={{
+                    display: 'flex',
                     width: '100%',
                     height,
-                    backgroundColor: 'rgb(37, 37, 37)'
+                    backgroundColor: 'rgb(37, 37, 37)',
                 }}
-            /> 
+            >
+                {['All', 'Music', 'Funny', 'Sports', 'News', 'Other'].map((item) => {
+                    return(
+                        <MenuLink style={{                    
+                                borderColor: 'white',
+                                borderTopWidth: 1}}>
+                            <LinkText>
+                                {item}
+                            </LinkText>
+                        </MenuLink>
+                    )
+                })}
+            </Animated.View> 
         </>
     )    
 }

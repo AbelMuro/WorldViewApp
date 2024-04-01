@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { SafeAreaView, ScrollView, Text, Dimensions } from 'react-native';
+import { SafeAreaView, ScrollView, Text, Dimensions, View } from 'react-native';
 import Video from 'react-native-video';
 import {Actions} from 'react-native-router-flux';
 import HeaderBar from '~/Components/HeaderBar';
@@ -29,15 +29,18 @@ function DisplayVideo({url, thumbnail, title, userImage, username, timeCreated, 
             <HeaderBar back={true}/>
             <MenuBar maxHeight={250}/>
             <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
-                <Video
-                    source={{uri: url}}
-                    poster={thumbnail}
-                    posterResizeMode='cover'
-                    paused={true}
-                    style={{width: '100%', height: 250}}
-                    controls={true}
-                    resizeMode='cover'
-                />                        
+                <View>
+                    <Video
+                        source={{uri: url}}
+                        poster={thumbnail}
+                        posterResizeMode='cover'
+                        paused={true}
+                        style={{width: '100%', height: 250}}
+                        controls={true}
+                        resizeMode='cover'
+                    />                         
+                </View>
+                   
                 <VideoTitle>
                     {title}
                 </VideoTitle>    
