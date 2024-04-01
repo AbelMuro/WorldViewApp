@@ -45,11 +45,11 @@ function MenuBar() {
                     backgroundColor: 'rgb(37, 37, 37)',
                 }}
             >
-                {['All', 'Music', 'Funny', 'Sports', 'News', 'Other'].map((item) => {
+                {['All', 'Music', 'Funny', 'Sports', 'News', 'Other'].map((item, i) => {
                     return(
                         <MenuLink style={{                    
                                 borderColor: 'white',
-                                borderTopWidth: 1}}>
+                                borderTopWidth: 1}} key={i}>
                             <LinkText>
                                 {item}
                             </LinkText>
