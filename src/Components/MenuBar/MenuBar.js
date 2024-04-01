@@ -45,6 +45,7 @@ function MenuBar({maxHeight}) {
             });
     }, [open])
 
+
     return(
         <>
             <Bar onPress={handleMenu}>
