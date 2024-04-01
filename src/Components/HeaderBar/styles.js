@@ -7,6 +7,7 @@ export const Header = styled.View `
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 `
 
 export const Title = styled.Text `
@@ -15,4 +16,16 @@ export const Title = styled.Text `
     font-family: CrimsonText;
     font-weight: 700;
     text-transform: uppercase;
+`
+
+export const GoBackButton = styled.Pressable`
+    width: 30px;
+    height: 10px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 15px;
+    top: 25px;
 `

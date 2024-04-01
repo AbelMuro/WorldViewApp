@@ -80,7 +80,7 @@ function EnterComment({userID, videoID}) {
     }, [comment])
 
     return(
-        <View>
+        <View style={{marginBottom: 30}}>
             <TextInput
                 value={comment}
                 onChangeText={handleComment}

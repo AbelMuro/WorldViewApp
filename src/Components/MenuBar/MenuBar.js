@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Animated, {useSharedValue, withTiming, Easing} from 'react-native-reanimated';
 import {Bar, MenuLink, LinkText, Line} from './styles.js';
 import {SvgXml} from 'react-native-svg'
@@ -7,6 +7,7 @@ import icons from './icons'
 function MenuBar() {
     const [open, setOpen] = useState(false);
     const height = useSharedValue(0);
+    const skipFirstRender = useRef(true);
 
     const handleMenu = () => {
       setOpen(!open);
@@ -27,6 +28,11 @@ function MenuBar() {
     }
 
     useEffect(() => {
+        if(skipFirstRender.current){
+            skipFirstRender.current = false;
+            return;
+        }
+
         if(open)
             height.value = withTiming(350, {
                 duration: 200,
