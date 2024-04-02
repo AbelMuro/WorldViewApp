@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Animated, {useSharedValue, withTiming, Easing} from 'react-native-reanimated';
-import {Bar, MenuLink, LinkText, Line} from './styles.js';
+import {Bar, MenuLink, LinkText} from './styles.js';
 import {SvgXml} from 'react-native-svg'
 import icons from './icons'
+
+//implement the functionality for the links in the menu bar
 
 function MenuBar() {
     const [open, setOpen] = useState(false);
