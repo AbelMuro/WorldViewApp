@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { SafeAreaView, ScrollView, Text, Dimensions, View } from 'react-native';
 import Video from 'react-native-video';
-import {Actions} from 'react-native-router-flux';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar';
 import EnterComment from './EnterComment';
 import CommentSection from './CommentSection';
+import OtherVideos from './OtherVideos';
 import {
     VideoTitle, 
     VideoUploaderImage, 
@@ -13,26 +13,21 @@ import {
     Uploader,
     PostedOn
 } from './styles.js';
+import {useSelector} from 'react-redux';
+
+function DisplayVideo() {
+    const video = useSelector(state => state.video);
 
 
-//now i need to create the 'other videos' for the user
-
-function DisplayVideo({url, thumbnail, title, userImage, username, timeCreated, userID, videoID}) {
-
-    useEffect(() => {
-        if(!url)
-            Actions.pop();
-    }, [url])
-
-    return(
+    return !video.title ? <></> : (
         <SafeAreaView>
             <HeaderBar back={true}/>
             <MenuBar/>
             <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
                 <View>
                     <Video
-                        source={{uri: url}}
-                        poster={thumbnail}
+                        source={{uri: video.url}}
+                        poster={video.thumbnail}
                         posterResizeMode='cover'
                         paused={true}
                         style={{width: '100%', height: 250}}
@@ -40,23 +35,23 @@ function DisplayVideo({url, thumbnail, title, userImage, username, timeCreated, 
                         resizeMode='cover'
                     />                         
                 </View>
-                   
                 <VideoTitle>
-                    {title}
+                    {video.title}
                 </VideoTitle>    
                 <Uploader>
                     <VideoUploaderImage
-                        source={{uri: userImage}}
+                        source={{uri: video.userImage}}
                     />
                     <VideoUploader>
-                        {username}
+                        {video.username}
                     </VideoUploader>
                 </Uploader>   
                 <PostedOn>
-                    <Text style={{fontWeight: 700}}>Posted on:</Text>   {timeCreated}
+                    <Text style={{fontWeight: 700}}>Posted on:</Text>   {video.timeCreated}
                 </PostedOn>
-                <EnterComment userID={userID} videoID={videoID}/>
-                <CommentSection userID={userID} videoID={videoID}/>
+                <EnterComment/>
+                <CommentSection/>
+                <OtherVideos/>
             </ScrollView>
         </SafeAreaView>
     )

@@ -1,28 +1,22 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import CommentReplies from './CommentReplies';
+import React, {lazy, memo} from 'react';
+import CircularLoadingBar from '~/Components/CircularLoadingBar';
 import {collection} from 'firebase/firestore';
 import {db} from '~/Firebase'
 import {useCollectionData} from 'react-firebase-hooks/firestore'
 import {
-        MainContainer, 
-        Container,
+        MainContainer,
         NoCommentsContainer, 
         NoComments, 
-        CommentContainer,
-        CommentOwnerImage,
-        CommentOwnerName,
-        Comment,
-        TimeStamp,
-        ReplyButton,
-        ButtonText,
-    } from './styles.js';
+} from './styles.js';
+import { useSelector } from 'react-redux';
+const DisplayComment = lazy(() => import('./DisplayComment'));
 
-function CommentSection({userID, videoID}) {
-    const allCommentsRef = collection(db, `${userID}/${videoID}/commentSection`);
+function CommentSection() {
+    const video = useSelector(state => state.video);
+    const allCommentsRef = collection(db, `${video.userID}/${video.videoID}/commentSection`);
     const [allComments, loading, error] = useCollectionData(allCommentsRef);
 
-    return loading ? <Text>loading</Text> : 
+    return loading ? <CircularLoadingBar/> : 
             !allComments.length ? (
                     <NoCommentsContainer> 
                         <NoComments>
@@ -32,36 +26,8 @@ function CommentSection({userID, videoID}) {
                 ) : (
             <MainContainer>
                 {allComments.map((comment) => {
-                    let userImage = comment.userImage;
-                    let userName = comment.username;
-                    let timeStamp = comment.timeStamp
-                    let commentID = comment.commentID;
-                    let currentComment = comment.comment;
                     return(
-                        <Container key={commentID}>
-                            <CommentContainer>
-                                <View style={{width: '50px', display: 'flex', gap: 15}}>
-                                    <CommentOwnerImage
-                                        source={{uri: userImage}}
-                                    />
-                                    <CommentOwnerName>
-                                        {userName}
-                                    </CommentOwnerName>                                
-                                </View>
-                                <Comment>
-                                    {currentComment}
-                                </Comment>
-                                    <TimeStamp>
-                                        {timeStamp}
-                                    </TimeStamp>
-                                    <ReplyButton>
-                                        <ButtonText>
-                                            Reply
-                                        </ButtonText>
-                                    </ReplyButton>                                
-                            </CommentContainer>                     
-                            <CommentReplies userID={userID} videoID={videoID} commentID={commentID}/>
-                        </Container>
+                        <DisplayComment comment={comment}/>
                     )
                 })}
             </MainContainer>                    
@@ -71,4 +37,4 @@ function CommentSection({userID, videoID}) {
     
 }
 
-export default CommentSection;
+export default memo(CommentSection);

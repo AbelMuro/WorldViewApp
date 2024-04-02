@@ -1,13 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {View, TextInput} from 'react-native';
 import {SubmitComment, ButtonText} from './styles.js';
 import {db} from '~/Firebase';
 import {doc, setDoc} from 'firebase/firestore';
 import {v4 as uuid} from 'uuid';
+import {useSelector} from 'react-redux';
 
-function EnterComment({userID, videoID}) {
+function EnterComment() {
     const [comment, setComment] = useState('');
     const [error, setError] = useState(false);
+    const video = useSelector(state => state.video);
 
     const styles = {
         input: {
@@ -58,7 +60,7 @@ function EnterComment({userID, videoID}) {
         const commentID = 'happy';
 
         try{
-            const newCommentRef = doc(db, `${userID}`, `${videoID}/commentSection/${commentID}`) 
+            const newCommentRef = doc(db, `${video.userID}`, `${video.videoID}/commentSection/${commentID}`) 
             await setDoc(newCommentRef, {
                 comment,
                 commentID,
@@ -96,4 +98,4 @@ function EnterComment({userID, videoID}) {
     )
 }
 
-export default EnterComment;
+export default memo(EnterComment);
