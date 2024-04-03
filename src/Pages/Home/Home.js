@@ -4,12 +4,12 @@ import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar';
 import DisplayAllVideos from './DisplayAllVideos';
 
-function Home() {
+function Home({category}) {
     return(
         <SafeAreaView>
             <HeaderBar/>
             <MenuBar/>
-            <DisplayAllVideos/>
+            <DisplayAllVideos category={category}/>
         </SafeAreaView>
 
     )

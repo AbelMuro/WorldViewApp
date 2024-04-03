@@ -29,3 +29,16 @@ export const GoBackButton = styled.Pressable`
     left: 15px;
     top: 25px;
 `
+
+export const LoginButton = styled.Pressable`
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 100px;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

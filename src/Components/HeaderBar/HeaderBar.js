@@ -1,5 +1,5 @@
 import React from 'react';
-import {Header, Title, GoBackButton} from './styles.js';
+import {Header, Title, GoBackButton, LoginButton} from './styles.js';
 import {Actions} from 'react-native-router-flux';
 import {SvgXml} from 'react-native-svg';
 import icons from './icons';
@@ -8,6 +8,10 @@ function HeaderBar({back}) {
 
     const handleGoBack = () => {
         Actions.pop();
+    }
+
+    const handleLogin = () => {
+        Actions.login();5
     }
 
     return(
@@ -19,6 +23,9 @@ function HeaderBar({back}) {
             <Title>
                 world view
             </Title>
+            <LoginButton onPress={handleLogin}>
+                <SvgXml xml={icons['login']} width='15px' height='30px'/>
+            </LoginButton>
         </Header>
     )
 }

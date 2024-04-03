@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Animated, {useSharedValue, withTiming, Easing} from 'react-native-reanimated';
 import {Bar, MenuLink, LinkText} from './styles.js';
+import {Actions} from 'react-native-router-flux';
 import {SvgXml} from 'react-native-svg'
 import icons from './icons'
-
-//implement the functionality for the links in the menu bar
 
 function MenuBar() {
     const [open, setOpen] = useState(false);
@@ -13,6 +12,10 @@ function MenuBar() {
 
     const handleMenu = () => {
       setOpen(!open);
+    }
+
+    const handleLink = (item) => {
+        Actions.home({category: item});
     }
 
     useEffect(() => {
@@ -45,20 +48,22 @@ function MenuBar() {
                     width: '100%',
                     height,
                     backgroundColor: 'rgb(37, 37, 37)',
-                }}
-            >
-                {['All', 'Music', 'Funny', 'Sports', 'News', 'Other'].map((item, i) => {
+                }}>
+                {['All', 'Music', 'Funny', 'Sports', 'News', 'Other'].map((item) => {
                     return(
-                        <MenuLink style={{                    
-                                borderColor: 'white',
-                                borderTopWidth: 1}} key={i}>
-                            <LinkText>
-                                {item}
-                            </LinkText>
-                        </MenuLink>
-                    )
-                })}
-            </Animated.View> 
+                            <MenuLink style={{                    
+                                    borderColor: 'white',
+                                    borderTopWidth: 1}}
+                                    onPress={() => handleLink(item)}
+                                    key={item}
+                                    >
+                                <LinkText>
+                                    {item}
+                                </LinkText>
+                            </MenuLink>                            
+                        )
+                    })}
+            </Animated.View>                 
         </>
     )    
 }
