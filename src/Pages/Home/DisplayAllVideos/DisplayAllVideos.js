@@ -15,7 +15,13 @@ function DisplayAllVideos({category}) {
     const q = category && query(videosRef, where('category', '==', category))
     const [videos, loading, error] = useCollectionData(category ? (category !== 'All' ? q : videosRef) : videosRef);
 
-    const userCollection = firestore().collection('developers collection');
+    const userCollection = firestore().collection('developers collection/allVideos/videoCollection');
+
+    userCollection.get().then((snapshot) => {                   //this is where i left off, i can traverse though the documents of a collection like this
+        snapshot.forEach((doc) => {
+            console.log(doc.id, doc.data());
+        })
+    });
 
 
     return(            
