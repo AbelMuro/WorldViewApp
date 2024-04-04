@@ -5,6 +5,7 @@ import MenuBar from '~/Components/MenuBar';
 import DisplayAllVideos from './DisplayAllVideos';
 
 function Home({category}) {
+
     return(
         <SafeAreaView>
             <HeaderBar/>

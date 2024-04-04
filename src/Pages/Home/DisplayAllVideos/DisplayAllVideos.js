@@ -6,6 +6,7 @@ import {Title,
     AllVideos} from './styles.js';
 import {useCollectionData} from 'react-firebase-hooks/firestore';    
 import {collection, query, where} from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import {db} from '~/Firebase';
 const Video = lazy(() => import('./Video'));
 
@@ -13,6 +14,8 @@ function DisplayAllVideos({category}) {
     const videosRef = collection(db, "developers collection/allVideos/videoCollection");
     const q = category && query(videosRef, where('category', '==', category))
     const [videos, loading, error] = useCollectionData(category ? (category !== 'All' ? q : videosRef) : videosRef);
+
+    const userCollection = firestore().collection('developers collection');
 
 
     return(            

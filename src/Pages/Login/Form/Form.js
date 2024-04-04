@@ -1,23 +1,25 @@
-import React from 'react';
-import {Image, View} from 'react-native';
+import React, {useState} from 'react';
+import {View, Modal, Text} from 'react-native';
+import { Formik, Field } from 'formik';
 import EnterEmail from './EnterEmail';
 import EnterPassword from './EnterPassword'
 import {
     LoginButton,
-    LoginText,    
-    Button,
-    ButtonText, 
-    Message,
+    LoginText,
+    ErrorMessage
 } from './styles.js';
-import icons from './icons';
-import { Formik, Field } from 'formik';
+import {auth} from '~/Firebase';
+import { 
+    createUserWithEmailAndPassword, 
+    updateProfile, 
+    signOut, 
+    sendEmailVerification, 
+    sendSignInLinkToEmail,
+    signInWithEmailAndPassword
+} from 'firebase/auth';
 
 function Form() {
-
-    const handleRegister = () => {
-
-    } 
-
+    const [error, setError] = useState(false);
 
     const validateForm = (values) => {
         const errors = {};
@@ -32,35 +34,58 @@ function Form() {
 
 
 
-    const handleSubmit = (values) => {
-        console.log(values)
+    const handleSubmit = async (values) => {
+        let email = values.email;
+        let password = values.password;
+
+        try{
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+            setError(false);
+        }
+        catch(error){
+            setError(true);
+        }
     }
 
 
     return(
-        <>
             <Formik
                 initialValues={{email: '', password: ''}}
                 onSubmit={handleSubmit}
                 validate={validateForm}
             >
                 {
-                    ({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
+                    ({handleChange, handleBlur, handleSubmit, errors, touched}) => (
                         <View style={{display: 'flex', alignItems: 'center', gap: 20}}>
                             <Field
                                 name='email'
                                 type='email'>
                                     {({field}) => (
-                                        <EnterEmail {...field} error={errors} onChangeText={handleChange('email')} onBlur={handleBlur('email')} touched={touched}/>
+                                        <EnterEmail 
+                                            {...field} 
+                                            error={errors} 
+                                            onChangeText={handleChange('email')} 
+                                            onBlur={handleBlur('email')} 
+                                            touched={touched}/>
                                     )}
                             </Field>
                             <Field
                                 name='password'
                                 type='password'>
                                     {({field}) => (
-                                        <EnterPassword {...field} error={errors} onChangeText={handleChange('password')} onBlur={handleBlur('password')} touched={touched}/>
+                                        <EnterPassword 
+                                            {...field} 
+                                            error={errors} 
+                                            onChangeText={handleChange('password')} 
+                                            onBlur={handleBlur('password')} 
+                                            touched={touched}/>
                                     )}
                             </Field>
+                            {error && 
+                                <ErrorMessage>
+                                    Incorrect email or password             
+                                </ErrorMessage>
+                            }
                             <LoginButton onPress={handleSubmit}>
                                 <LoginText>
                                     Log in
@@ -69,22 +94,8 @@ function Form() {
                         </View>
                     )
                 }
-            </Formik>
-            <Message>
-                ...or you can log in with Google
-            </Message>
-            <Button>
-                <Image source={icons['google']} style={{width: 40, height: 40}}/>
-                <ButtonText>
-                    Sign in with Google
-                </ButtonText>
-            </Button>
-            <Button onPress={handleRegister}>
-                <ButtonText style={{fontSize: 12}}>
-                    Don't have an account? Register here.
-                </ButtonText>
-            </Button>
-        </>
+            </Formik>       
+
     )
 }
 
