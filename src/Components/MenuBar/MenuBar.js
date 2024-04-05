@@ -1,9 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Animated, {useSharedValue, withTiming, Easing} from 'react-native-reanimated';
-import {Bar, MenuLink, LinkText} from './styles.js';
+import {
+        Bar, 
+        MenuLink, 
+        LinkText, 
+} from './styles.js';
 import {Actions} from 'react-native-router-flux';
 import {SvgXml} from 'react-native-svg'
 import icons from './icons'
+import SignOutButton from './SignOutButton';
 
 function MenuBar() {
     const [open, setOpen] = useState(false);
@@ -17,6 +22,7 @@ function MenuBar() {
     const handleLink = (item) => {
         Actions.home({category: item});
     }
+
 
     useEffect(() => {
         if(skipFirstRender.current){
@@ -41,6 +47,7 @@ function MenuBar() {
         <>
             <Bar onPress={handleMenu}>
                 <SvgXml xml={icons['menu']} width='55px' height='25px' />
+                <SignOutButton/>
             </Bar>   
             <Animated.View
                 style={{

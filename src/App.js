@@ -1,26 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Router, Scene } from 'react-native-router-flux';
-import { Provider } from 'react-redux';
-import store from './Store';
 import Home from './Pages/Home';
 import DisplayVideo from './Pages/DisplayVideo';
 import Login from './Pages/Login';
+import Register from './Pages/Register';
+import ReduxProvider from './Components/ReduxProvider';
+import auth from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
 
 function App() {
-    
-  return (
-        <Provider store={store}>
-            <Router>  
-                <Scene key='root'>    
-                    <Scene key='home' component={Home} initial hideNavBar/>    
-                    <Scene key='video' component={DisplayVideo} hideNavBar/>       
-                    <Scene key='login' component={Login} hideNavBar/>                   
-                </Scene> 
-            </Router>              
-        </Provider>
-          
-    
-  )
+    const dispatch = useDispatch();
+
+    const onAuthStateChanged = (user) => {
+        if(!user) {
+            console.log('logged out');
+            dispatch({type: 'UPDATE_USER', user: null});
+            return; 
+        }
+        console.log('logged in')
+        let userData = {
+            userName: user.displayName,
+            email: user.email,
+            emailVerified: user.emailVerified,
+            userImage: user.photoURL,
+            uid: user.uid
+        }
+        dispatch({type: 'UPDATE_USER', user: userData});
+    }
+
+    useEffect(() => {
+        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+        return subscriber;
+    }, [])
+
+    return (
+        <Router>  
+            <Scene key='root'>    
+                <Scene key='home' component={Home} initial hideNavBar/>    
+                <Scene key='video' component={DisplayVideo} hideNavBar/>       
+                <Scene key='login' component={Login} hideNavBar/>     
+                <Scene key='register' component={Register} hideNavBar/>              
+            </Scene> 
+        </Router>              
+    )
 }
 
-export default App;
+export default ReduxProvider(App);

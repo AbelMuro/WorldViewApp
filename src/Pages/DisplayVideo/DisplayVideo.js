@@ -16,7 +16,7 @@ import {
 import {useSelector} from 'react-redux';
 
 function DisplayVideo() {
-    const video = useSelector(state => state.video);
+    const video = useSelector(state => state.video.video);
 
 
     return !video.title ? <></> : (

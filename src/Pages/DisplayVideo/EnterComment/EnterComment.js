@@ -1,15 +1,15 @@
 import React, {useState, useEffect, memo} from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Alert} from 'react-native';
 import {SubmitComment, ButtonText} from './styles.js';
-import {db} from '~/Firebase';
-import {doc, setDoc} from 'firebase/firestore';
-import {v4 as uuid} from 'uuid';
+import uuid from 'react-native-uuid';
 import {useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 
 function EnterComment() {
     const [comment, setComment] = useState('');
     const [error, setError] = useState(false);
-    const video = useSelector(state => state.video);
+    const video = useSelector(state => state.video.video);
+    const user = useSelector(state => state.user.user); 
 
     const styles = {
         input: {
@@ -47,9 +47,12 @@ function EnterComment() {
             setError(true);
     }
 
-    //it works!
     const handleSubmit = async () => {
         if(isNotValidComment()) return;
+        if(!user){
+            Alert.alert('You must be signed in to post a comment');
+            return
+        }
 
         const currentDate = new Date();
         const millisecondsSince1970 = currentDate.getTime();
@@ -57,24 +60,26 @@ function EnterComment() {
         const currentHour = ((currentDate.getHours() + 11) % 12 + 1);
         const currentMinutes = currentDate.getMinutes();
         const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
-        const commentID = 'happy';
+        const commentID = uuid.v1();
+        const newComment = {
+            comment,
+            commentID,
+            username: user.userName,
+            userID: user.uid,
+            userImage: user.userImage,
+            order: millisecondsSince1970,
+            timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
+        }
 
-        try{
-            const newCommentRef = doc(db, `${video.userID}`, `${video.videoID}/commentSection/${commentID}`) 
-            await setDoc(newCommentRef, {
-                comment,
-                commentID,
-                userID: '',
-                userImage: '',
-                order: millisecondsSince1970,
-                timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
+        let commentCollection = firestore().collection(`${video.userID}/${video.videoID}/commentSection`);
+        commentCollection.add(newComment)
+            .then(() => {
+                alert('Comment has been added');
             })
-            //remember there is another async function that must be executed here
-        }
-        catch(error){
-            console.log(error)
-        }
-
+            .catch((error) => {
+                console.log(error);
+            })
+            //theres one more thing i need to do here
     }
 
     useEffect(() => {

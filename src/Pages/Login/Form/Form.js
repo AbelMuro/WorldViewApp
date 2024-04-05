@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Modal, Text} from 'react-native';
+import {View} from 'react-native';
 import { Formik, Field } from 'formik';
 import EnterEmail from './EnterEmail';
 import EnterPassword from './EnterPassword'
@@ -8,15 +8,7 @@ import {
     LoginText,
     ErrorMessage
 } from './styles.js';
-import {auth} from '~/Firebase';
-import { 
-    createUserWithEmailAndPassword, 
-    updateProfile, 
-    signOut, 
-    sendEmailVerification, 
-    sendSignInLinkToEmail,
-    signInWithEmailAndPassword
-} from 'firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 function Form() {
     const [error, setError] = useState(false);
@@ -35,14 +27,14 @@ function Form() {
 
 
     const handleSubmit = async (values) => {
+        setError(false);
         let email = values.email;
         let password = values.password;
 
         try{
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            setError(false);
+            const user = await auth().signInWithEmailAndPassword(email, password);
         }
-        catch(error){
+        catch(error) {
             setError(true);
         }
     }

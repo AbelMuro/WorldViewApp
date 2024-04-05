@@ -7,6 +7,7 @@ export const Bar = styled.TouchableOpacity`
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 `
 
 export const Menu = styled.FlatList`

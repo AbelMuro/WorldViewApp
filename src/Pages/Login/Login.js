@@ -10,9 +10,9 @@ import {
     Button,
     ButtonText,
     Message
-} from './styles.js'
-import {auth} from '~/Firebase';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+} from './styles.js';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 
 function Login() {
 
@@ -21,15 +21,18 @@ function Login() {
     } 
 
     const handleGoogleLogin = async () => {
-        GoogleSignin.configure();
+        GoogleSignin.configure({
+            webClientId: '400279370588-hlaf463h74nf6b5mnp3jbb7ovthatogq.apps.googleusercontent.com'
+        });
 
         try{
-            await GoogleSignin.hasPlayServices();    
-            const userInfo = await GoogleSignin.signIn();  
-            console.log(userInfo);
+           await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+           const {idToken} = await GoogleSignin.signIn();
+           const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+           await auth().signInWithCredential(googleCredential);
         }
         catch(error){
-            console.log(error)
+            alert("Can't sign in with Google")
         }
     }
 

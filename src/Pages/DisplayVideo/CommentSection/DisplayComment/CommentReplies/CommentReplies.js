@@ -1,24 +1,35 @@
-import React, {memo, lazy} from 'react';
-import {db} from '~/Firebase'
-import {collection} from 'firebase/firestore';
-import {useCollectionData} from 'react-firebase-hooks/firestore';
+import React, {memo, lazy, useEffect, useState} from 'react';
 import {Container} from './styles.js';
 import {useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 const DisplayReply = lazy(() => import('./DisplayReply'));
 
 function CommentReplies({commentID}){
-    const video = useSelector(state => state.video);
-    const repliesRef = collection(db, `${video.userID}/${video.videoID}/commentSection/${commentID}/commentReplies`);
-    const [replies, loading, error] = useCollectionData(repliesRef);
+    const video = useSelector(state => state.video.video);
+    const [allReplies, setAllReplies] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        firestore()
+            .collection(`${video.userID}/${video.videoID}/commentSection/${commentID}/commentReplies`)
+            .onSnapshot((snapshot) => {
+                    setLoading(true);        
+                    let replies = [];
+                    snapshot.forEach((doc) => {
+                        let reply = doc.data();
+                        replies.push(
+                            <DisplayReply reply={reply} key={reply.commentID}/>
+                        )
+                    })
+                    setAllReplies(replies);
+                    setLoading(false);              
+            });   
+    }, [])
 
     return loading ? 
         <></> : 
-        <Container>{
-            replies.map((reply) => {
-                return(
-                    <DisplayReply reply={reply} />
-                )
-            })}        
+        <Container>
+            {allReplies}      
         </Container>
 
         
