@@ -17,7 +17,6 @@ function Form() {
         setError(false);
         let email = values.email;
         let password = values.password;
-
         try{
             const user = await auth().signInWithEmailAndPassword(email, password);
         }
