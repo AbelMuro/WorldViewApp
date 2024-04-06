@@ -4,6 +4,7 @@ import Home from './Pages/Home';
 import DisplayVideo from './Pages/DisplayVideo';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
+import Account from './Pages/Account';
 import ReduxProvider from './Components/ReduxProvider';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
@@ -39,7 +40,8 @@ function App() {
                 <Scene key='home' component={Home} initial hideNavBar/>    
                 <Scene key='video' component={DisplayVideo} hideNavBar/>       
                 <Scene key='login' component={Login} hideNavBar/>     
-                <Scene key='register' component={Register} hideNavBar/>              
+                <Scene key='register' component={Register} hideNavBar/>       
+                <Scene key='account' component={Account} hideNavBar/>         
             </Scene> 
         </Router>              
     )
