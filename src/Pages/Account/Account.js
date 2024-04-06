@@ -5,8 +5,8 @@ import {Text} from 'react-native';
 import {Actions} from 'react-native-route-flux';
 import auth from '@react-native-firebase/auth';
 
+//this is where i left off
 function Account() {
-
 
     return(
         <>

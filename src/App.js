@@ -27,8 +27,9 @@ function App() {
             email: user.email,
             emailVerified: user.emailVerified,
             userImage: user.photoURL,
-            uid: user.uid
+            uid: user.uid,
         }
+        console.log(user.displayName);
         dispatch({type: 'UPDATE_USER', user: userData});
     }
 

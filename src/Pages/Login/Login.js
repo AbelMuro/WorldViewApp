@@ -31,16 +31,18 @@ function Login() {
            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
            const {idToken} = await GoogleSignin.signIn();
            const googleCredential = auth.GoogleAuthProvider.credential(idToken); 
-           await auth().signInWithCredential(googleCredential);
+           let credentials = await auth().signInWithCredential(googleCredential);
 
-           const userDoc= await firestore().collection(`${idToken.slice(0, 29)}`).doc('userInfo').get();
+           const userDoc = await firestore().collection(`${credentials.user.uid}`).doc('userInfo').get();
            if(userDoc.exists){
                const userInfo = userDoc.data();
-               await auth().currentUser.updateProfile({
+               await auth().currentUser.updateProfile({             
                     displayName: userInfo.username, 
                     photoURL: userInfo.imageURL
                 })
            }
+           else 
+                await firestore().collection(`${credentials.user.uid}`).doc('userInfo').set({});
            Actions.account();
         }
         catch(error){
