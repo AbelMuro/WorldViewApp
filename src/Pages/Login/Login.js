@@ -13,11 +13,12 @@ import {
 } from './styles.js';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+import { Actions } from 'react-native-router-flux';
 
 function Login() {
 
     const handleRegister = () => {
-
+        Actions.register();
     } 
 
     const handleGoogleLogin = async () => {
