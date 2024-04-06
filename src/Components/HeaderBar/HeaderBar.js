@@ -3,15 +3,20 @@ import {Header, Title, GoBackButton, LoginButton} from './styles.js';
 import {Actions} from 'react-native-router-flux';
 import {SvgXml} from 'react-native-svg';
 import icons from './icons';
+import {useSelector} from 'react-redux';
 
 function HeaderBar({back}) {
+    const user = useSelector(state => state.user.user);
 
     const handleGoBack = () => {
         Actions.pop();
     }
 
     const handleLogin = () => {
-        Actions.login();5
+        if(user)
+            Actions.account();
+        else
+            Actions.login();
     }
 
     return(

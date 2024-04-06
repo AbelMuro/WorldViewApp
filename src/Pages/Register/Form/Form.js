@@ -10,6 +10,8 @@ import {
     ErrorMessage
 } from './styles.js'
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import {Actions} from 'react-native-router-flux';
 
 function Form() {
     const [error, setError] = useState('');
@@ -53,15 +55,27 @@ function Form() {
         }
         
         try {
-            await auth().createUserWithEmailAndPassword(email, password);
+            let userCredentials = await auth().createUserWithEmailAndPassword(email, password);
             Alert.alert('Account has been created');
-            setLoading(false);
+            await auth().currentUser.updateProfile({
+                displayName: username
+            })
+            await firestore().collection(userCredentials.user.uid).doc('userInfo').set({
+                aboutMe: '',
+                imageURL: '',
+                username
+            });     
+            Actions.account();
         }
         catch(error){
             if(error.code === 'auth/email-already-in-use')
                 setError('Email is already registered')
             else if(error.code === 'auth/invalid-email')
                 setError('Invalid Email');
+            console.log(error);
+        }
+        finally{
+            setLoading(false);
         }
     }
 

@@ -8,12 +8,15 @@ import Account from './Pages/Account';
 import ReduxProvider from './Components/ReduxProvider';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
+import {Actions} from 'react-native-router-flux';
 
 function App() {
     const dispatch = useDispatch();
 
     const onAuthStateChanged = (user) => {
         if(!user) {
+            if(Actions.currentScene === 'account')
+                Actions.login();
             console.log('logged out');
             dispatch({type: 'UPDATE_USER', user: null});
             return; 

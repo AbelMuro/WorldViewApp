@@ -9,6 +9,7 @@ import {
     ErrorMessage
 } from './styles.js';
 import auth from '@react-native-firebase/auth';
+import {Actions} from 'react-native-router-flux';
 
 function Form() {
     const [error, setError] = useState(false);
@@ -19,9 +20,11 @@ function Form() {
         let password = values.password;
         try{
             const user = await auth().signInWithEmailAndPassword(email, password);
+            Actions.account();
         }
         catch(error) {
             setError(true);
+            console.log(error);
         }
     }
 

@@ -14,6 +14,7 @@ import {
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import { Actions } from 'react-native-router-flux';
+import firestore from '@react-native-firebase/firestore';
 
 function Login() {
 
@@ -29,11 +30,22 @@ function Login() {
         try{
            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
            const {idToken} = await GoogleSignin.signIn();
-           const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+           const googleCredential = auth.GoogleAuthProvider.credential(idToken); 
            await auth().signInWithCredential(googleCredential);
+
+           const userDoc= await firestore().collection(`${idToken.slice(0, 29)}`).doc('userInfo').get();
+           if(userDoc.exists){
+               const userInfo = userDoc.data();
+               await auth().currentUser.updateProfile({
+                    displayName: userInfo.username, 
+                    photoURL: userInfo.imageURL
+                })
+           }
+           Actions.account();
         }
         catch(error){
-            alert("Can't sign in with Google")
+            alert("Your google email is already being used by another account");
+            console.log(error);
         }
     }
 
