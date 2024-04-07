@@ -34,15 +34,9 @@ function Login() {
            let credentials = await auth().signInWithCredential(googleCredential);
 
            const userDoc = await firestore().collection(`${credentials.user.uid}`).doc('userInfo').get();
-           if(userDoc.exists){
-               const userInfo = userDoc.data();
-               await auth().currentUser.updateProfile({             
-                    displayName: userInfo.username, 
-                    photoURL: userInfo.imageURL
-                })
-           }
-           else 
+           if(!userDoc.exists)
                 await firestore().collection(`${credentials.user.uid}`).doc('userInfo').set({});
+            
            Actions.account();
         }
         catch(error){
