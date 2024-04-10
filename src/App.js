@@ -7,30 +7,19 @@ import Register from './Pages/Register';
 import Account from './Pages/Account';
 import ReduxProvider from './Components/ReduxProvider';
 import auth from '@react-native-firebase/auth';
-import {useDispatch} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 
 function App() {
-    const dispatch = useDispatch();
 
     const onAuthStateChanged = (user) => {
         if(!user) {
             if(Actions.currentScene === 'account')
                 Actions.login();
             console.log('logged out');
-            dispatch({type: 'UPDATE_USER', user: null});
             return; 
         }
-        console.log('logged in')
-        let userData = {
-            userName: user.displayName,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            userImage: user.photoURL,
-            uid: user.uid,
-        }
-        console.log(user.displayName);
-        dispatch({type: 'UPDATE_USER', user: userData});
+        else
+            console.log('logged in')
     }
 
     useEffect(() => {

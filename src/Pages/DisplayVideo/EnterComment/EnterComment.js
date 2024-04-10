@@ -4,12 +4,12 @@ import {SubmitComment, ButtonText} from './styles.js';
 import uuid from 'react-native-uuid';
 import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 function EnterComment() {
     const [comment, setComment] = useState('');
     const [error, setError] = useState(false);
     const video = useSelector(state => state.video.video);
-    const user = useSelector(state => state.user.user); 
 
     const styles = {
         input: {
@@ -49,7 +49,7 @@ function EnterComment() {
 
     const handleSubmit = async () => {
         if(isNotValidComment()) return;
-        if(!user){
+        if(!auth().currentUser){
             Alert.alert('You must be signed in to post a comment');
             return
         }

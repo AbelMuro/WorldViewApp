@@ -1,21 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import UserInfo from './UserInfo';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar'; 
-import {Text} from 'react-native';
 import {Actions} from 'react-native-route-flux';
-import auth from '@react-native-firebase/auth';
-import {useSelector} from 'react-redux';
 
 //this is where i left off
-function Account() {
-    const user = useSelector(state => state.user.user);
-
-    console.log(user);
+function Account() { 
 
     return(
         <>
             <HeaderBar back={true}/>
             <MenuBar/>
+            <UserInfo/>
         </>
     )
 }
