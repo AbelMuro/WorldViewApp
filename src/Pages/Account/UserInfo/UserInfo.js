@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import UpdateAccount from './UpdateAccount';
+import {ScrollView, View, Text, Dimensions} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {
     AccountSection, 
@@ -16,33 +17,24 @@ function UserInfo() {
     const [loading, setLoading] = useState(false);
 
     const formatDateJoined = (creationTime) => {
-        console.log(creationTime);
-        const dateCreated = new Date(Number(creationTime));
+        const dateCreated = new Date(creationTime);
         return dateCreated.toDateString();
     }
 
 
     useEffect(() => {
         if(!auth().currentUser) return;
-        setLoading(true);
-
-        async function getUserImage() {
-            try{
-                const userDoc = await firestore().collection(`${auth().currentUser.uid}`).doc('userInfo').get();
-                setUserInfo(userDoc.data());              
-            }
-            catch(error){
-                console.log(error);
-            }
-            finally{
-                setLoading(false);
-            }
-        }
-        getUserImage();
+        
+        const userDoc = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
+        userDoc.onSnapshot((doc) => {
+            setLoading(true);
+            setUserInfo(doc.data());   
+            setLoading(false);
+        })               
     }, [])
 
     return(
-        <ScrollView>
+        <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
                 <AccountSection>
                     <AccountInfo>
                         {
@@ -75,6 +67,10 @@ function UserInfo() {
                                 loading ? <Text> Loading</Text> : <Detail>{userInfo && userInfo.aboutMe ? userInfo.aboutMe : "User hasn't written anything"}</Detail>
                             }                       
                         </View>    
+                        {loading ? <Text>Loading </Text> : 
+                            <UpdateAccount 
+                                username={userInfo && userInfo.username} 
+                                aboutme={userInfo && userInfo.aboutMe}/>}
                     </AccountInfo>
                 </AccountSection>
             </ScrollView>

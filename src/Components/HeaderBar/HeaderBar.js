@@ -4,16 +4,16 @@ import {Actions} from 'react-native-router-flux';
 import {SvgXml} from 'react-native-svg';
 import icons from './icons';
 import {useSelector} from 'react-redux';
-import auth from '@react-native-firebase/auth';
 
 function HeaderBar({back}) {
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
 
     const handleGoBack = () => {
         Actions.pop();
     }
 
     const handleLogin = () => {
-        if(auth().currentUser)
+        if(isLoggedIn)
             Actions.account();
         else
             Actions.login();
