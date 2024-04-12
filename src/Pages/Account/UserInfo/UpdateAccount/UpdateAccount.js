@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, ActivityIndicator, View, Image} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker'
-import { UpdateAccountButton, ButtonText } from './styles.js';
+import { 
+    UpdateAccountButton, 
+    ButtonText, 
+    UploadedImageContainer,
+    LoadingContainer } from './styles.js';
 import Dialog from "react-native-dialog";
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -13,6 +17,7 @@ function UpdateAccount({username, aboutme}) {
     const [newUserName, setNewUserName] = useState(username);
     const [newAboutMe, setNewAboutMe] = useState(aboutme);
     const [newImage, setNewImage] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleUsername = (text) => {
         setNewUserName(text);
@@ -26,19 +31,13 @@ function UpdateAccount({username, aboutme}) {
         try{
             const image = await launchImageLibrary({
                 mediaType: 'photo',
-            });          
+            });     
+            if(image.didCancel) return;
             let imageObject = image.assets[0];
-            
-            const imageRef = storage().ref(`/${auth().currentUser.uid}/${imageObject.fileName}`);           //need to figure this out
-            console.log(imageRef);
-            //imageRef.putFile(`${auth().currentUser.uid}/`)
-
-
+            setNewImage(imageObject);
         }
         catch(error){
-            if(error === 'camera_unavailable')
-                Alert.alert('Camera is not available')
-            else if(error = 'permission')
+            if(error === 'permission')
                 Alert.alert("App doesn't have permission to access images");
             console.log(error);
         }
@@ -47,14 +46,41 @@ function UpdateAccount({username, aboutme}) {
     const handleDialog = () => {
         setOpen(!open);
     }
+
+    const handleCancel = () => {
+        setNewUserName(username);
+        setNewAboutMe(aboutme);
+        setNewImage(null);
+        setOpen(false);
+    }
     
     const handleAccount = async () => {
-        let userInfoDoc = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
-        await userInfoDoc.update({
-            username: newUserName,
-            aboutMe: newAboutMe
-        })
-        setOpen(false);
+        setLoading(true);
+        try{
+            let url = null;           
+            let userInfoDoc = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');     
+            if(newImage) {
+                const imageRef = storage().ref(`${auth().currentUser.uid}/${newImage.fileName}`);         
+                await imageRef.putFile(newImage.uri);      
+                url = await storage().ref(`${auth().currentUser.uid}/${newImage.fileName}`).getDownloadURL();          
+            } 
+            let accountInfo = {
+                username: newUserName,
+                aboutMe: newAboutMe,
+            }
+            if(url)
+                accountInfo.imageURL = url;
+            await userInfoDoc.update(accountInfo);
+            setOpen(false);      
+        }
+        catch(error){
+            if(error === 'permission')
+                Alert.alert("App doesn't have permission to access images");
+            console.log(error);
+        }
+        finally{
+            setLoading(false);
+        }
     }
 
     return(
@@ -66,11 +92,20 @@ function UpdateAccount({username, aboutme}) {
             </UpdateAccountButton>        
             <Dialog.Container visible={open}>
                 <Dialog.Title>Update Account</Dialog.Title>
-                <Dialog.Input value={newUserName} onChangeText={handleUsername} label='Username'/>
-                <Dialog.Input value={newAboutMe} onChangeText={handleAboutme} label='About Me' />
-                <Dialog.Button label='Upload' onPress={handleUpload}/>
-                <Dialog.Button label="Cancel" onPress={handleDialog}/>
-                <Dialog.Button label="Update" onPress={handleAccount}/>
+                {!loading && <Dialog.Input value={newUserName} onChangeText={handleUsername} label='Username'/>}
+                {!loading && <Dialog.Input value={newAboutMe} onChangeText={handleAboutme} label='About Me'/>}
+                {loading && 
+                    <LoadingContainer> 
+                        <ActivityIndicator size='large' color='red'/>
+                    </LoadingContainer>}
+                {newImage && !loading && 
+                    <UploadedImageContainer>
+                        <Image source={{uri: newImage.uri}} style={{width: 100, height: 100, borderRadius: 100}}/>
+                    </UploadedImageContainer>
+                }
+                <Dialog.Button label='Upload' onPress={handleUpload} disabled={loading}/>
+                <Dialog.Button label="Cancel" onPress={handleCancel} disabled={loading}/>
+                <Dialog.Button label="Update" onPress={handleAccount} disabled={loading}/>
             </Dialog.Container>
         </>
 

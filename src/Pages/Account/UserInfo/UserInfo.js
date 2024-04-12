@@ -34,7 +34,6 @@ function UserInfo() {
     }, [])
 
     return(
-        <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
                 <AccountSection>
                     <AccountInfo>
                         {
@@ -73,7 +72,6 @@ function UserInfo() {
                                 aboutme={userInfo && userInfo.aboutMe}/>}
                     </AccountInfo>
                 </AccountSection>
-            </ScrollView>
     )
 }
 

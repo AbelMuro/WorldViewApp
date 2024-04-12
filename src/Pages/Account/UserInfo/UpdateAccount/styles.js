@@ -16,3 +16,20 @@ export const ButtonText = styled.Text`
     font-weight: 400;
     text-transform: uppercase;
 `
+
+export const UploadedImageContainer = styled.View`
+    width: 100%; 
+    height: 100px; 
+    display: flex; 
+    align-items: center;
+    margin-bottom: 10px;
+`
+
+export const LoadingContainer = styled.View`
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+`
