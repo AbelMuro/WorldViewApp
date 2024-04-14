@@ -19,10 +19,11 @@ function UserVideos() {
                 let userVideos = [];
                 snapshot.forEach((doc) => {
                     let video = doc.data();
-                    userVideos.push({
-                        thumbnail: video.thumbnail,
-                        title: video.title
-                    })
+                    if(!video.aboutMe)
+                        userVideos.push({
+                            thumbnail: video.thumbnail,
+                            title: video.title
+                        })
                 })
             setVideos(userVideos);
             })

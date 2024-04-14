@@ -10,12 +10,12 @@ export const AccountImage = styled.Image`
     width: 250px;
     height: 250px;
     border-radius: 200px;
+    align-self: center;
 `
 
 
 export const AccountInfo = styled.View`
     display: flex;
-    align-items: center;
     gap: 30px;
 `
 
@@ -24,6 +24,7 @@ export const UserName = styled.Text`
     font-size: 25px;
     font-family: CrimsonText;
     font-weight: 400;
+    align-self: center;
 `
 
 export const Title = styled.Text`
