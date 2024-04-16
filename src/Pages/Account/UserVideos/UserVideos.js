@@ -34,7 +34,7 @@ function UserVideos() {
             <UploadVideo/>
             {videos.length ? videos.map((video) => {
                 return(
-                    <VideoContainer>
+                    <VideoContainer key={video.videoID}>
                         <VideoThumbnail source={{uri: video.thumbnail}}/>   
                         <VideoTitle>
                             {video.title}

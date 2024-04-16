@@ -18,14 +18,23 @@ export const ButtonText = styled.Text`
     text-transform: uppercase;
 `
 
-export const SelectBox = styled.View`
-    width: 100px;
-    height: 100px;
-    background-color: white;
-    border-radius: 10px;
-    padding: 10px;
+export const TitleContainer = styled.View`
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+`
+
+export const Title = styled.Text`
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+`
+
+export const LoadingContainer = styled.View`
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
