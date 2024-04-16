@@ -12,7 +12,7 @@ import {
     LoadingContainer
 } from './styles.js';
 
-//need to find a way to implement a dropdown in the dialog
+
 function UploadVideo() {
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState('');
