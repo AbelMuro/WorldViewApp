@@ -153,7 +153,6 @@ function UploadVideo() {
             const imageRef = storage().ref(`${auth().currentUser.uid}/${video.fileName}`);
             const task = imageRef.putFile(video.uri);
             task.then(() => {
-
                 setLoading(false);
                 handleCancel();
                 Alert.alert('Video has been successfully uploaded');
