@@ -134,7 +134,7 @@ function UploadVideo() {
             let currentMinutes = currentDate.getMinutes();
             currentMinutes = currentMinutes.toString().length == 1 ? `0${currentMinutes}` : currentMinutes;
             const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
-            let base64 = await ImgToBase64.getBase64String(thumbnail.path);     //this is where i left off
+            //let base64 = await ImgToBase64.getBase64String(thumbnail.path);     //this is where i left off
 
             const videoData = {
                 category,
