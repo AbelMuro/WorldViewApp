@@ -3,7 +3,7 @@ import {View, Text, ActivityIndicator, Alert, Platform, Image} from 'react-nativ
 import RadioGroup from 'react-native-radio-buttons-group';
 import Dialog from "react-native-dialog";
 import {launchImageLibrary} from 'react-native-image-picker';
-import { createThumbnail } from "react-native-create-thumbnail";
+import { createThumbnail } from "react-native-create-thumbnail";            //requires certain permission on android, look up documentation for this
 import ImgToBase64 from 'react-native-image-base64';
 import { 
     UploadVideoButton, 
