@@ -33,8 +33,20 @@ export const Title = styled.Text`
 
 export const LoadingContainer = styled.View`
     width: 100%;
-    height: 200px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+`
+export const UploadedFileContainer = styled.View`
+    width: 90%;
+    display: flex;
+    align-items: center;
+    margin: 0px auto 20px auto;
+`
+
+export const UploadedFileName = styled.Text`
+    font-family: CrimsonText;
+    font-size: 16px;
+    font-weight: 700;
 `
