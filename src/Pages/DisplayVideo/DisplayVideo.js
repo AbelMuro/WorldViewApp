@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { SafeAreaView, ScrollView, Text, Dimensions, View } from 'react-native';
 import Video from 'react-native-video';
 import HeaderBar from '~/Components/HeaderBar';
@@ -14,10 +14,19 @@ import {
     PostedOn
 } from './styles.js';
 import {useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 
 function DisplayVideo() {
+    const [userInfo, setUserInfo] = useState({});
     const video = useSelector(state => state.video.video);
 
+    useEffect(() => {
+        if(!video) return;
+
+        firestore().collection(video.userID).doc('userInfo').get().then((snapshot) => {
+            setUserInfo(snapshot.data());
+        })
+    }, [video])
 
     return !video.title ? <></> : (
         <SafeAreaView>
@@ -40,10 +49,10 @@ function DisplayVideo() {
                 </VideoTitle>    
                 <Uploader>
                     <VideoUploaderImage
-                        source={{uri: video.userImage}}
+                        source={{uri: userInfo && userInfo.imageURL}}
                     />
                     <VideoUploader>
-                        {video.username}
+                        {userInfo && userInfo.username}
                     </VideoUploader>
                 </Uploader>   
                 <PostedOn>

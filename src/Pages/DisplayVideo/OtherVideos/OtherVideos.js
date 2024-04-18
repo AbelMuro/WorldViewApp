@@ -16,7 +16,7 @@ function OtherVideos() {
     useMemo(() => {
         setLoading(true);
         let videos = [];
-        const videoCollection = firestore().collection(`${video.userID}`);
+        const videoCollection = firestore().collection(`${video.userID}`).orderBy('order', 'desc');
 
         async function getVideos() {
             const snapshot = await videoCollection.get();

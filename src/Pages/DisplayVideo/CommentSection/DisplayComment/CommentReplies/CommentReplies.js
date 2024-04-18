@@ -11,14 +11,14 @@ function CommentReplies({commentID}){
 
     useEffect(() => {
         firestore()
-            .collection(`${video.userID}/${video.videoID}/commentSection/${commentID}/commentReplies`)
+            .collection(`${video.userID}/${video.videoID}/commentSection/${commentID}/commentReplies`).orderBy('order', 'desc')
             .onSnapshot((snapshot) => {
                     setLoading(true);        
                     let replies = [];
                     snapshot.forEach((doc) => {
                         let reply = doc.data();
                         replies.push(
-                            <DisplayReply reply={reply} key={reply.commentID}/>
+                            <DisplayReply reply={reply} key={reply.commentID} userID={reply.userID}/>
                         )
                     })
                     setAllReplies(replies);

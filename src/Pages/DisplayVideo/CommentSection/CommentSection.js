@@ -21,14 +21,14 @@ function CommentSection() {
 
     useEffect(() => {
         firestore()
-            .collection(`${video.userID}/${video.videoID}/commentSection`)
+            .collection(`${video.userID}/${video.videoID}/commentSection`).orderBy('order', 'desc')
             .onSnapshot((snapshot) => {
                     setLoading(true);        
                     let comments = [];
                     snapshot.forEach((doc) => {
                         let comment = doc.data();
                         comments.push(
-                            <DisplayComment comment={comment} key={comment.commentID}/>
+                            <DisplayComment comment={comment} key={comment.commentID} userID={comment.userID}/>
                         )
                     })
                     setAllComments(comments);

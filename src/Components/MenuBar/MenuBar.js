@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, memo} from 'react';
 import Animated, {useSharedValue, withTiming, Easing} from 'react-native-reanimated';
 import {
         Bar, 
@@ -75,4 +75,4 @@ function MenuBar() {
     )    
 }
 
-export default MenuBar;
+export default memo(MenuBar);

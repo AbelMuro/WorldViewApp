@@ -18,14 +18,14 @@ function DisplayAllVideos({category}) {
         if(category && category !== 'All')
             videoCollection = firestore().collection('developers collection/allVideos/videoCollection').where('category', '==', category);
         else
-            videoCollection = firestore().collection('developers collection/allVideos/videoCollection');
+            videoCollection = firestore().collection('developers collection/allVideos/videoCollection').orderBy('order', 'desc');
 
         async function getVideos() {
             const snapshot = await videoCollection.get();
             snapshot.forEach((doc) => {
                 let video = doc.data();
                 videos.push(
-                    <Video video={video} key={video.videoID}/>   
+                    <Video video={video} key={video.videoID} userID={video.userID}/>   
                 )                    
             })
             setAllVideos(videos);

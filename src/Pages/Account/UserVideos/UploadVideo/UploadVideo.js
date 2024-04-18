@@ -4,7 +4,7 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import Dialog from "react-native-dialog";
 import {launchImageLibrary} from 'react-native-image-picker';
 import { createThumbnail } from "react-native-create-thumbnail";            //requires certain permission on android, look up documentation for this
-import ImgToBase64 from 'react-native-image-base64';
+import uuid from 'react-native-uuid';
 import { 
     UploadVideoButton, 
     ButtonText, 
@@ -22,7 +22,7 @@ import auth from '@react-native-firebase/auth';
 function UploadVideo() {
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState(1);
+    const [category, setCategory] = useState('Funny');
     const [video, setVideo] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -31,7 +31,7 @@ function UploadVideo() {
 
     const categories = [
         {
-            id: 1,
+            id: 'Funny',
             label: 'Funny',
             value: 'Funny',
             borderColor: Platform.OS === 'ios' ? 'white' : 'black',
@@ -39,7 +39,7 @@ function UploadVideo() {
             labelStyle: Platform.OS === 'ios' ? {color: 'white'} : {color: 'black'}
         },
         {
-            id: 2,
+            id: 'Music',
             label: 'Music',
             value: 'Music',
             borderColor: Platform.OS === 'ios' ? 'white' : 'black',
@@ -47,7 +47,7 @@ function UploadVideo() {
             labelStyle: Platform.OS === 'ios' ? {color: 'white'} : {color: 'black'}
         },
         {
-            id: 3,
+            id: 'Sports',
             label: 'Sports',
             value: 'Sports',
             borderColor: Platform.OS === 'ios' ? 'white' : 'black',
@@ -55,7 +55,7 @@ function UploadVideo() {
             labelStyle: Platform.OS === 'ios' ? {color: 'white'} : {color: 'black'}
         },
         {
-            id: 4,
+            id: 'News',
             label: 'News',
             value: 'News',
             borderColor: Platform.OS === 'ios' ? 'white' : 'black',
@@ -63,7 +63,7 @@ function UploadVideo() {
             labelStyle: Platform.OS === 'ios' ? {color: 'white'} : {color: 'black'}
         },
         {
-            id: 5,
+            id: 'Other',
             label: 'Other',
             value: 'Other',
             borderColor: Platform.OS === 'ios' ? 'white' : 'black',
@@ -127,6 +127,7 @@ function UploadVideo() {
         }
         setLoading(true);
         try{
+            //creating a date object that has the current date formatted
             const currentDate = new Date();
             const millisecondsSince1970 = currentDate.getTime();
             const readableDate = currentDate.toLocaleDateString();
@@ -134,29 +135,43 @@ function UploadVideo() {
             let currentMinutes = currentDate.getMinutes();
             currentMinutes = currentMinutes.toString().length == 1 ? `0${currentMinutes}` : currentMinutes;
             const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
-            //let base64 = await ImgToBase64.getBase64String(thumbnail.path);     //this is where i left off
 
-            const videoData = {
-                category,
-                thumbnail, 
+            //uploading thumbnail to storage
+            const thumbnailName = thumbnail.path.slice(thumbnail.path.lastIndexOf('/') + 1, thumbnail.path.length);
+            const reference = storage().ref(`${auth().currentUser.uid}/${thumbnailName}`);    
+            await reference.putFile(thumbnail.path);
+            let thumbnailUrl = await storage().ref(`${auth().currentUser.uid}/${thumbnailName}`).getDownloadURL();
+
+            //uploading video to storage
+            const imageRef = storage().ref(`${auth().currentUser.uid}/${video.fileName}`);
+            await imageRef.putFile(video.uri);
+            let videoUrl = await storage().ref(`${auth().currentUser.uid}/${video.fileName}`).getDownloadURL();
+
+            //creating a document for the video
+            const collectionRef = firestore().collection(`${auth().currentUser.uid}`);
+            let userInfo = await collectionRef.doc('userInfo').get();
+            userInfo = userInfo.data();
+            let videoID = uuid.v4();
+            await collectionRef.doc(videoID).set({
+                category: category,
+                thumbnail: thumbnailUrl, 
+                title: title,
                 searchTitle: title.toLowerCase(),
-                username: auth().currentUser.username,
+                username: userInfo.username,
+                userImage: userInfo.imageURL,
                 order: millisecondsSince1970,
                 userID: auth().currentUser.uid,
                 timeCreated: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
-                videoID: '',
-                url: '',
-                isHeightBiggerThanWidth : '',
+                videoID: videoID,
+                url: videoUrl,
+                isHeightBiggerThanWidth: video.height > video.width,
                 resolution: video.height
-            };
-
-            const imageRef = storage().ref(`${auth().currentUser.uid}/${video.fileName}`);
-            const task = imageRef.putFile(video.uri);
-            task.then(() => {
-                setLoading(false);
-                handleCancel();
-                Alert.alert('Video has been successfully uploaded');
             })
+
+            setLoading(false);
+            handleCancel();
+            Alert.alert('Video has been successfully uploaded');
+            
         }
         catch(error){
             console.log(error);
@@ -183,8 +198,9 @@ function UploadVideo() {
     }, [video])
 
     useEffect(() => {
-        console.log(loading);
-    }, [loading])
+        if(!video) return;
+        console.log(video);
+    }, [video])
 
 
     return(

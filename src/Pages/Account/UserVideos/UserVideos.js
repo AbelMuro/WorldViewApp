@@ -14,7 +14,7 @@ function UserVideos() {
     const [videos, setVideos] = useState([]);
 
     useEffect(() => {
-        firestore().collection(`${auth().currentUser.uid}`)
+        firestore().collection(`${auth().currentUser.uid}`).orderBy('order', 'desc')
             .onSnapshot((snapshot) => {
                 let userVideos = [];
                 snapshot.forEach((doc) => {

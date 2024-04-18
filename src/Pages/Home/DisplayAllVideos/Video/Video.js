@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {useDispatch} from 'react-redux';
@@ -9,14 +9,23 @@ import {
     VideoOwnerImage,
     VideoOwner,
     PostedDate} from './styles.js';
+import firestore from '@react-native-firebase/firestore';
 
-function Video({video}) {
+function Video({video, userID}) {
+    const [userInfo, setUserInfo] = useState({})
     const dispatch = useDispatch();
 
     const handleVideo = () => {
         Actions.video();
         dispatch({type: 'UPDATE_VIDEO', video});
     }
+
+    useEffect(() => {
+        firestore().collection(`${userID}`).doc('userInfo').get().then((snapshot) => {
+            setUserInfo(snapshot.data());
+        });
+        
+    }, [userID])
 
     return(
         <VideoContainer key={video.videoID}>
@@ -29,10 +38,10 @@ function Video({video}) {
             </VideoTitle>
             <View style={{display: 'flex', gap: 10, flexDirection: 'row', alignItems: 'center'}}>
                 <VideoOwnerImage
-                    source={{uri: video.userImage}}
+                    source={{uri: userInfo.imageURL}}
                 />
                 <VideoOwner>
-                    {video.username}
+                    {userInfo.username}
                 </VideoOwner>
             </View>
             <PostedDate>
