@@ -16,7 +16,6 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
 
-
 //make sure you organize the props with these components, its a mess
 function DisplayVideo({videoOwnerID, videoID}) {
     const [userInfo, setUserInfo] = useState({});
@@ -33,6 +32,7 @@ function DisplayVideo({videoOwnerID, videoID}) {
         if(!videoOwnerID || !videoID) return;
 
         firestore().collection(videoOwnerID).doc(videoID).get().then((snapshot) => {
+            console.log(snapshot.data());
             setVideo(snapshot.data());
         })
     }, [videoOwnerID, videoID])
@@ -48,7 +48,7 @@ function DisplayVideo({videoOwnerID, videoID}) {
                         poster={video.thumbnail}
                         posterResizeMode='cover'
                         paused={true}
-                        style={{width: '100%', height: 250}}
+                        style={{width: '100%', height: video.isHeightBiggerThanWidth ? 730 : 250}}
                         controls={true}
                         resizeMode='cover'
                     />                         

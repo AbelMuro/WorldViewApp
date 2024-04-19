@@ -16,7 +16,6 @@ function App() {
             if(Actions.currentScene === 'account')
                 Actions.login();
             console.log('logged out');
-            return; 
         }
         else{
             console.log('logged in');

@@ -4,9 +4,7 @@ import UserInfo from './UserInfo';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar'; 
 import UserVideos from './UserVideos';
-import {Actions} from 'react-native-route-flux';
 
-//this is where i left off
 function Account() { 
 
     return(

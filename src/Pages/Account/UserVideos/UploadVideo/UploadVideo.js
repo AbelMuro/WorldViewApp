@@ -168,6 +168,24 @@ function UploadVideo() {
                 resolution: video.height
             })
 
+            //adding the video to the developers collection
+            const developersRef = firestore().collection('developers collection/allVideos/videoCollection');
+            await developersRef.doc(videoID).set({
+                category: category,
+                thumbnail: thumbnailUrl, 
+                title: title,
+                searchTitle: title.toLowerCase(),
+                username: userInfo.username,
+                userImage: userInfo.imageURL,
+                order: millisecondsSince1970,
+                userID: auth().currentUser.uid,
+                timeCreated: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
+                videoID: videoID,
+                url: videoUrl,
+                isHeightBiggerThanWidth: video.height > video.width,
+                resolution: video.height
+            })
+
             setLoading(false);
             handleCancel();
             Alert.alert('Video has been successfully uploaded');
@@ -199,7 +217,7 @@ function UploadVideo() {
 
     useEffect(() => {
         if(!video) return;
-        console.log(video);
+        console.log(video.height > video.width);
     }, [video])
 
 
@@ -214,6 +232,11 @@ function UploadVideo() {
                     <Dialog.Title>
                         Upload Video
                     </Dialog.Title>
+                    {loading && 
+                        <Dialog.Description>
+                            Video may take some time to upload
+                        </Dialog.Description>
+                    }
                     {!loading && <Dialog.Input 
                         label={'Enter Title'} 
                         value={title} 

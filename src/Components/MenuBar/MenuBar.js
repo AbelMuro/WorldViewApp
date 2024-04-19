@@ -1,14 +1,14 @@
 import React, {useState, useEffect, useRef, memo} from 'react';
 import Animated, {useSharedValue, withTiming, Easing} from 'react-native-reanimated';
+import {Actions} from 'react-native-router-flux';
+import {SvgXml} from 'react-native-svg'
+import icons from './icons'
+import SignOutButton from './SignOutButton';
 import {
         Bar, 
         MenuLink, 
         LinkText, 
 } from './styles.js';
-import {Actions} from 'react-native-router-flux';
-import {SvgXml} from 'react-native-svg'
-import icons from './icons'
-import SignOutButton from './SignOutButton';
 
 function MenuBar() {
     const [open, setOpen] = useState(false);

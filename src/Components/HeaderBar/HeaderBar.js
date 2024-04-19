@@ -3,17 +3,16 @@ import {Header, Title, GoBackButton, LoginButton} from './styles.js';
 import {Actions} from 'react-native-router-flux';
 import {SvgXml} from 'react-native-svg';
 import icons from './icons';
-import {useSelector} from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
 function HeaderBar({back}) {
-    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
 
     const handleGoBack = () => {
         Actions.pop();
     }
 
     const handleLogin = () => {
-        if(isLoggedIn)
+        if(auth().currentUser)
             Actions.account();
         else
             Actions.login();

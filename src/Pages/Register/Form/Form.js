@@ -12,13 +12,10 @@ import {
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {Actions} from 'react-native-router-flux';
-import icons from '~/Common/Icons';
 
 function Form() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false)
-
-    console.log(icons['empty avatar']);
 
     const validateForm = (values) => {
         let email = values.email;
