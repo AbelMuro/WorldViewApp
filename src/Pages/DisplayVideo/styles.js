@@ -38,3 +38,14 @@ export const PostedOn = styled.Text`
     font-weight: 400;
     margin: 0px auto 30px auto;
 `
+
+export const LoadingVideo = styled.View`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    top: 40%;
+`

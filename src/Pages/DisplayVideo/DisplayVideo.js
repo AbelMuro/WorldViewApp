@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView, ScrollView, Text, Dimensions, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, Dimensions, View, ActivityIndicator } from 'react-native';
 import Video from 'react-native-video';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar';
@@ -11,14 +11,17 @@ import {
     VideoUploaderImage, 
     VideoUploader, 
     Uploader,
-    PostedOn
+    PostedOn,
+    LoadingVideo
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
+import { LoadingContainer } from './CommentSection/DisplayComment/ReplyButton/styles.js';
 
 function DisplayVideo({videoOwnerID, videoID}) {
     const [userInfo, setUserInfo] = useState({});
     const [video, setVideo] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if(!video) return;
@@ -35,21 +38,34 @@ function DisplayVideo({videoOwnerID, videoID}) {
         })
     }, [videoOwnerID, videoID])
 
+    useEffect(() => {
+        console.log(loading)
+    }, [loading])
+
     return !video ? <></> : (
         <SafeAreaView>
             <HeaderBar back={true}/>
             <MenuBar/>
             <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
-                <View>
+                <View style={{position: 'relative'}}>
                     <Video
                         source={{uri: video.url}}
+                        onLoadStart={() => {
+                            setLoading(true)
+                        }}
+                        onLoad={(() => {
+                            setLoading(false)
+                        })}
                         poster={video.thumbnail}
                         posterResizeMode='cover'
                         paused={true}
                         style={{width: '100%', aspectRatio: 1}}
                         controls={true}
                         resizeMode='contain'
-                    />                         
+                    />     
+                    {loading && <LoadingVideo>
+                            <ActivityIndicator size='large' color='red'/>
+                        </LoadingVideo>}                    
                 </View>
                 <VideoTitle>
                     {video.title}
