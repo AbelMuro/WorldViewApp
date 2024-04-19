@@ -43,7 +43,7 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
                 <TimeStamp>
                     {timeStamp}
                 </TimeStamp>
-                <ReplyButton videoID={videoID} commentID={commentID} videoOwnerID={videoOwnerID}/>                         
+                <ReplyButton videoOwnerID={videoOwnerID} videoID={videoID} commentID={commentID}/>                         
             </CommentContainer>                     
             <CommentReplies videoOwnerID={videoOwnerID} videoID={videoID} commentID={commentID}/>
         </Container>
