@@ -13,15 +13,14 @@ import firestore from '@react-native-firebase/firestore';
 const DisplayComment = lazy(() => import('./DisplayComment'));
 
 
-function CommentSection() {
-    const video = useSelector(state => state.video.video);
+function CommentSection({videoID, userID}) {
     const [allComments, setAllComments] = useState([]);
     const [loading, setLoading] = useState(false);
     
 
     useEffect(() => {
         firestore()
-            .collection(`${video.userID}/${video.videoID}/commentSection`).orderBy('order', 'desc')
+            .collection(`${userID}/${videoID}/commentSection`).orderBy('order', 'desc')
             .onSnapshot((snapshot) => {
                     setLoading(true);        
                     let comments = [];
@@ -32,15 +31,15 @@ function CommentSection() {
                                 comment={comment} 
                                 key={comment.commentID} 
                                 userID={comment.userID} 
-                                videoID={video.videoID}
-                                videoOwnerID={video.userID}
+                                videoID={videoID}
+                                videoOwnerID={userID}
                             />
                         )
                     })
                     setAllComments(comments);
                     setLoading(false);              
             });   
-    }, [])
+    }, [videoID, userID])
 
 
     return loading ? <CircularLoadingBar/> : 

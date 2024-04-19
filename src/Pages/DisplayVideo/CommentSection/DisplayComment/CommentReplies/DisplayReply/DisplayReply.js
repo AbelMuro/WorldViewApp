@@ -24,7 +24,7 @@ function DisplayReply({reply, userID}) {
     }, [userID])
 
     return(
-        <ReplyContainer key={commentID}>
+        <ReplyContainer>
             <View style={{display: 'flex', gap: 10}}>
                 <ReplyOwnerImage 
                     source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}/>

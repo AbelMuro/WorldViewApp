@@ -1,17 +1,15 @@
 import React, {memo, lazy, useEffect, useState} from 'react';
 import {Container} from './styles.js';
-import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 const DisplayReply = lazy(() => import('./DisplayReply'));
 
-function CommentReplies({commentID}){
-    const video = useSelector(state => state.video.video);
+function CommentReplies({commentID, videoID, userID}){
     const [allReplies, setAllReplies] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         firestore()
-            .collection(`${video.userID}/${video.videoID}/commentSection/${commentID}/commentReplies`).orderBy('order', 'desc')
+            .collection(`${userID}/${videoID}/commentSection/${commentID}/commentReplies`).orderBy('order', 'desc')
             .onSnapshot((snapshot) => {
                     setLoading(true);        
                     let replies = [];
@@ -24,7 +22,8 @@ function CommentReplies({commentID}){
                     setAllReplies(replies);
                     setLoading(false);              
             });   
-    }, [])
+    }, [videoID, userID])
+
 
     return loading ? 
         <></> : 

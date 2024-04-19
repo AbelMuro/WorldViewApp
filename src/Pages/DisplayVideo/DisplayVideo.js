@@ -16,6 +16,8 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
 
+
+//make sure you organize the props with these components, its a mess
 function DisplayVideo({videoOwnerID, videoID}) {
     const [userInfo, setUserInfo] = useState({});
     const [video, setVideo] = useState(null);
@@ -66,7 +68,7 @@ function DisplayVideo({videoOwnerID, videoID}) {
                     <Text style={{fontWeight: 700}}>Posted on:</Text>   {video.timeCreated}
                 </PostedOn>
                 <EnterComment/>
-                <CommentSection/>
+                <CommentSection userID={video.userID} videoID={video.videoID}/>
                 <OtherVideos userID={video.userID}/>
             </ScrollView>
         </SafeAreaView>

@@ -8,8 +8,6 @@ import { useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 const Video = lazy(() => import('./Video'));
 
-
-//
 function OtherVideos({userID}) {
     const [allVideos, setAllVideos] = useState([]);
     const [userInfo, setUserInfo] = useState({});
