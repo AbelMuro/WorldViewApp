@@ -217,7 +217,7 @@ function UploadVideo() {
 
     useEffect(() => {
         if(!video) return;
-        console.log(video.height > video.width);
+        console.log(video.height > video.width, video.height, video.width);
     }, [video])
 
 
