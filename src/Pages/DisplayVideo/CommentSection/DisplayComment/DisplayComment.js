@@ -7,15 +7,13 @@ import {
     CommentOwnerName,
     Comment,
     TimeStamp,
-    ReplyButton,
-    ButtonText,
 } from './styles.js';
 import CommentReplies from './CommentReplies';
 import firestore from '@react-native-firebase/firestore';
+import ReplyButton from './ReplyButton';
+import icons from '~/Common/Icons';
 
-
-//i will need to implement the functionality for the reply button
-function DisplayComment({comment, userID}) {
+function DisplayComment({comment, userID, videoID, videoOwnerID}) {
     const [userInfo, setUserInfo] = useState({});
     const timeStamp = comment.timeStamp
     const commentID = comment.commentID;
@@ -29,11 +27,11 @@ function DisplayComment({comment, userID}) {
     }, [userID])
 
     return(                        
-        <Container key={commentID}>
+        <Container>
             <CommentContainer>
                 <View style={{width: '50px', display: 'flex', gap: 15}}>
                     <CommentOwnerImage
-                        source={{uri: userInfo.imageURL}}
+                        source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
                     />
                     <CommentOwnerName>
                         {userInfo.username}
@@ -42,14 +40,10 @@ function DisplayComment({comment, userID}) {
                 <Comment>
                     {currentComment}
                 </Comment>
-                    <TimeStamp>
-                        {timeStamp}
-                    </TimeStamp>
-                    <ReplyButton>
-                        <ButtonText>
-                            Reply
-                        </ButtonText>
-                    </ReplyButton>                                
+                <TimeStamp>
+                    {timeStamp}
+                </TimeStamp>
+                <ReplyButton videoID={videoID} commentID={commentID} videoOwnerID={videoOwnerID}/>                         
             </CommentContainer>                     
             <CommentReplies commentID={commentID}/>
         </Container>

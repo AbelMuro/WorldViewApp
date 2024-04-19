@@ -6,14 +6,11 @@ import {
     VideoThumbnail,
     VideoTitle
 } from './styles.js'
-import {useDispatch} from 'react-redux';
 
 function Video({video}) {
-    const dispatch = useDispatch();
 
     const handleVideo = (video) => {
-        dispatch({type: 'UPDATE_VIDEO', video});
-        Actions.video(video)
+        Actions.video({videoOwnerID: video.userID, videoID: video.videoID});
     }
 
     return(

@@ -1,4 +1,5 @@
 import React from 'react';
+import {SafeAreaView} from 'react-native';
 import MenuBar from '~/Components/MenuBar';
 import HeaderBar from '~/Components/HeaderBar';
 import Form from './Form';
@@ -10,7 +11,7 @@ import {
 
 function Register() {
     return(
-        <>
+        <SafeAreaView>
             <HeaderBar back={true}/>        
             <MenuBar/>
             <RegisterContainer>
@@ -24,8 +25,7 @@ function Register() {
                 </RegisterDesc>
                 <Form/>
             </RegisterContainer>        
-        </>
-
+        </SafeAreaView>
     )
 }
 

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {TouchableOpacity} from 'react-native'
 import UploadVideo from './UploadVideo';
 import {
     AllVideos,
@@ -9,9 +10,16 @@ import {
 } from './styles.js'
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {Actions} from 'react-native-router-flux';
+import { useDispatch } from 'react-redux';
 
 function UserVideos() {
+    const dispatch = useDispatch();
     const [videos, setVideos] = useState([]);
+
+    const handleVideo = (video) => {
+        Actions.video({videoOwnerID: video.userID, videoID: video.videoID});
+    }
 
     useEffect(() => {
         firestore().collection(`${auth().currentUser.uid}`).orderBy('order', 'desc')
@@ -20,10 +28,7 @@ function UserVideos() {
                 snapshot.forEach((doc) => {
                     let video = doc.data();
                     if(!video.aboutMe)
-                        userVideos.push({
-                            thumbnail: video.thumbnail,
-                            title: video.title
-                        })
+                        userVideos.push(video);
                 })
             setVideos(userVideos);
             })
@@ -35,7 +40,9 @@ function UserVideos() {
             {videos.length ? videos.map((video) => {
                 return(
                     <VideoContainer key={video.videoID}>
-                        <VideoThumbnail source={{uri: video.thumbnail}}/>   
+                        <TouchableOpacity onPress={() => handleVideo(video)}>
+                            <VideoThumbnail source={{uri: video.thumbnail}}/>                              
+                        </TouchableOpacity>
                         <VideoTitle>
                             {video.title}
                         </VideoTitle>

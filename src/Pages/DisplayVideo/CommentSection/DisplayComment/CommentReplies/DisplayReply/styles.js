@@ -19,6 +19,7 @@ export const ReplyOwnerImage = Styled.Image`
 `
 
 export const ReplyOwner = Styled.Text`
+    width: 100px;
     color: black;
     font-size: 16px;
     font-family: CrimsonText;
@@ -26,6 +27,7 @@ export const ReplyOwner = Styled.Text`
 `
 
 export const Reply = Styled.Text`
+    width: 130px;
     color: black;
     font-size: 16px;
     font-weight: 400;

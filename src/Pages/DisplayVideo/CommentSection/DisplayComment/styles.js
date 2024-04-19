@@ -26,6 +26,7 @@ export const CommentOwnerImage = Styled.Image`
 `
 
 export const CommentOwnerName = Styled.Text`
+    width: 120px;
     color: black;
     font-size: 16px;
     font-family: CrimsonText;
@@ -33,6 +34,7 @@ export const CommentOwnerName = Styled.Text`
 `
 
 export const Comment = Styled.Text`
+    width: 190px; 
     color: black;
     font-size: 16px;
     font-family: CrimsonText;
@@ -48,24 +50,4 @@ export const TimeStamp = Styled.Text`
     font-size: 16px;
     font-family: CrimsonText;
     font-weight: 500;
-`
-
-export const ReplyButton = Styled.Pressable`
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 64px;
-    height: 30px;
-    border-radius: 5px;
-    background-color: rgb(199, 199, 199);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
-export const ButtonText = Styled.Text`
-    color: rgb(77, 77, 77);
-    font-size: 16px;
-    font-weight: 400;
-    font-family: CrimsonText;
 `

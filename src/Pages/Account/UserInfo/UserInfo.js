@@ -11,6 +11,7 @@ import {
     Detail
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
+import icons from '~/Common/Icons';
 
 function UserInfo() {
     const [userInfo, setUserInfo] = useState({});
@@ -37,7 +38,7 @@ function UserInfo() {
                 <AccountSection>
                     <AccountInfo>
                         {
-                            loading ? <Text>loading...</Text> : <AccountImage source={{uri: userInfo.imageURL}}/>
+                            loading ? <Text>loading...</Text> : <AccountImage source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}/> 
                         }        
                         {
                             loading ? <Text>Loading </Text> : <UserName>{userInfo && userInfo.username}</UserName>

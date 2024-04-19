@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Platform} from 'react-native';
+import {Image, Platform, SafeAreaView} from 'react-native';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar';
 import icons from './icons';
@@ -33,10 +33,13 @@ function Login() {
            const {idToken} = await GoogleSignin.signIn();
            const googleCredential = auth.GoogleAuthProvider.credential(idToken); 
            let credentials = await auth().signInWithCredential(googleCredential);
-
            const userDoc = await firestore().collection(`${credentials.user.uid}`).doc('userInfo').get();
            if(!userDoc.exists)
-                await firestore().collection(`${credentials.user.uid}`).doc('userInfo').set({});
+                await firestore().collection(`${credentials.user.uid}`).doc('userInfo').set({
+                    aboutMe: '',
+                    imageURL: credentials.user.photoURL || '',
+                    username: credentials.user.displayName || '',
+                });
             
            Actions.account();
         }
@@ -68,7 +71,11 @@ function Login() {
 
             const userDoc = await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').get();
             if(!userDoc.exists)
-                await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').set({});
+                await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').set({
+                    username: userCredentials.user.displayName || '',
+                    imageURL: userCredentials.user.photoURL || '',
+                    aboutMe: '',
+                });
 
             Actions.account();      
         }
@@ -79,7 +86,7 @@ function Login() {
     }
 
     return(
-        <>
+        <SafeAreaView>
             <HeaderBar back={true}/>
             <MenuBar/>
             <LoginContainer>
@@ -110,7 +117,7 @@ function Login() {
                     </ButtonText>
                 </Button>
             </LoginContainer>        
-        </>
+        </SafeAreaView>
 
     )
 }

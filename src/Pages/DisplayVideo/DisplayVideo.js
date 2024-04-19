@@ -13,22 +13,29 @@ import {
     Uploader,
     PostedOn
 } from './styles.js';
-import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import icons from '~/Common/Icons';
 
-function DisplayVideo() {
+function DisplayVideo({videoOwnerID, videoID}) {
     const [userInfo, setUserInfo] = useState({});
-    const video = useSelector(state => state.video.video);
+    const [video, setVideo] = useState(null);
 
     useEffect(() => {
         if(!video) return;
-
         firestore().collection(video.userID).doc('userInfo').get().then((snapshot) => {
             setUserInfo(snapshot.data());
         })
     }, [video])
 
-    return !video.title ? <></> : (
+    useEffect(() => {
+        if(!videoOwnerID || !videoID) return;
+
+        firestore().collection(videoOwnerID).doc(videoID).get().then((snapshot) => {
+            setVideo(snapshot.data());
+        })
+    }, [videoOwnerID, videoID])
+
+    return !video ? <></> : (
         <SafeAreaView>
             <HeaderBar back={true}/>
             <MenuBar/>
@@ -49,10 +56,10 @@ function DisplayVideo() {
                 </VideoTitle>    
                 <Uploader>
                     <VideoUploaderImage
-                        source={{uri: userInfo && userInfo.imageURL}}
+                        source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
                     />
                     <VideoUploader>
-                        {userInfo && userInfo.username}
+                        {userInfo.username}
                     </VideoUploader>
                 </Uploader>   
                 <PostedOn>
@@ -60,7 +67,7 @@ function DisplayVideo() {
                 </PostedOn>
                 <EnterComment/>
                 <CommentSection/>
-                <OtherVideos/>
+                <OtherVideos userID={video.userID}/>
             </ScrollView>
         </SafeAreaView>
     )

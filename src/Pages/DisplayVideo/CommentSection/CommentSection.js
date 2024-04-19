@@ -28,7 +28,13 @@ function CommentSection() {
                     snapshot.forEach((doc) => {
                         let comment = doc.data();
                         comments.push(
-                            <DisplayComment comment={comment} key={comment.commentID} userID={comment.userID}/>
+                            <DisplayComment 
+                                comment={comment} 
+                                key={comment.commentID} 
+                                userID={comment.userID} 
+                                videoID={video.videoID}
+                                videoOwnerID={video.userID}
+                            />
                         )
                     })
                     setAllComments(comments);

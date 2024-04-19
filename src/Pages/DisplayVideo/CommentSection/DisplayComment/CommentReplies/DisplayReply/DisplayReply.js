@@ -8,6 +8,7 @@ import {
     TimeStamp
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
+import icons from '~/Common/Icons';
 
 function DisplayReply({reply, userID}) {
     const [userInfo, setUserInfo] = useState({});
@@ -26,7 +27,7 @@ function DisplayReply({reply, userID}) {
         <ReplyContainer key={commentID}>
             <View style={{display: 'flex', gap: 10}}>
                 <ReplyOwnerImage 
-                    source={{uri: userInfo.imageURL}}/>
+                    source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}/>
                 <ReplyOwner>
                     {userInfo.username}
                 </ReplyOwner>                            

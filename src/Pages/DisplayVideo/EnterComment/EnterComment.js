@@ -39,7 +39,8 @@ function EnterComment() {
     }
 
     const handleComment = (text) => {
-        setComment(text)
+        if(text.length < 200)
+            setComment(text)
     }
 
     const handleBlur = () => {
@@ -53,32 +54,36 @@ function EnterComment() {
             Alert.alert('You must be signed in to post a comment');
             return
         }
+        try{
+            const currentDate = new Date();
+            const millisecondsSince1970 = currentDate.getTime();
+            const readableDate = currentDate.toLocaleDateString();
+            const currentHour = ((currentDate.getHours() + 11) % 12 + 1);
+            const currentMinutes = currentDate.getMinutes();
+            const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
+            const commentID = uuid.v4();
+            let userInfoRef = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
+            let userInfo = await userInfoRef.get();
+            userInfo = userInfo.data();
 
-        const currentDate = new Date();
-        const millisecondsSince1970 = currentDate.getTime();
-        const readableDate = currentDate.toLocaleDateString();
-        const currentHour = ((currentDate.getHours() + 11) % 12 + 1);
-        const currentMinutes = currentDate.getMinutes();
-        const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
-        const commentID = uuid.v1();
-        const newComment = {
-            comment,
-            commentID,
-            username: user.userName,
-            userID: user.uid,
-            userImage: user.userImage,
-            order: millisecondsSince1970,
-            timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
+            const newComment = {
+                comment,
+                commentID,
+                username: userInfo.username,
+                userID: auth().currentUser.uid,
+                userImage: userInfo.imageURL,
+                order: millisecondsSince1970,
+                timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
+            }
+
+            let commentCollectionRef = firestore().collection(`${video.userID}/${video.videoID}/commentSection`);
+            await commentCollectionRef.add(newComment)
+            Alert.alert('Comment has been posted');
+            setComment('');
         }
-
-        let commentCollection = firestore().collection(`${video.userID}/${video.videoID}/commentSection`);
-        commentCollection.add(newComment)
-            .then(() => {
-                alert('Comment has been added');
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        catch(error){
+            console.log(error);
+        }
             //theres one more thing i need to do here
     }
 

@@ -10,21 +10,20 @@ import {
     VideoOwner,
     PostedDate} from './styles.js';
 import firestore from '@react-native-firebase/firestore';
+import icons from '~/Common/Icons';
 
 function Video({video, userID}) {
     const [userInfo, setUserInfo] = useState({})
-    const dispatch = useDispatch();
+
 
     const handleVideo = () => {
-        Actions.video();
-        dispatch({type: 'UPDATE_VIDEO', video});
+        Actions.video({videoOwnerID: video.userID, videoID: video.videoID});
     }
 
     useEffect(() => {
         firestore().collection(`${userID}`).doc('userInfo').get().then((snapshot) => {
             setUserInfo(snapshot.data());
         });
-        
     }, [userID])
 
     return(
@@ -38,7 +37,7 @@ function Video({video, userID}) {
             </VideoTitle>
             <View style={{display: 'flex', gap: 10, flexDirection: 'row', alignItems: 'center'}}>
                 <VideoOwnerImage
-                    source={{uri: userInfo.imageURL}}
+                    source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
                 />
                 <VideoOwner>
                     {userInfo.username}
