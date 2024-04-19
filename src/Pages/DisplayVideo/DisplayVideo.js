@@ -68,8 +68,8 @@ function DisplayVideo({videoOwnerID, videoID}) {
                     <Text style={{fontWeight: 700}}>Posted on:</Text>   {video.timeCreated}
                 </PostedOn>
                 <EnterComment/>
-                <CommentSection userID={video.userID} videoID={video.videoID}/>
-                <OtherVideos userID={video.userID}/>
+                <CommentSection videoOwnerID={video.userID} videoID={video.videoID}/>
+                <OtherVideos videoOwnerID={video.userID}/>
             </ScrollView>
         </SafeAreaView>
     )

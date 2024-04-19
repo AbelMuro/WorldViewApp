@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 const Video = lazy(() => import('./Video'));
 
-function OtherVideos({userID}) {
+function OtherVideos({videoOwnerID}) {
     const [allVideos, setAllVideos] = useState([]);
     const [userInfo, setUserInfo] = useState({});
     const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ function OtherVideos({userID}) {
     useMemo(() => {
         setLoading(true);
         let videos = [];
-        const videoCollection = firestore().collection(`${userID}`).orderBy('order', 'desc');
+        const videoCollection = firestore().collection(`${videoOwnerID}`).orderBy('order', 'desc');
 
         async function getVideos() {
             const snapshot = await videoCollection.get();
@@ -36,13 +36,13 @@ function OtherVideos({userID}) {
         }
         getVideos();
 
-    }, [userID])
+    }, [videoOwnerID])
 
     useEffect(() => {
-        firestore().collection(`${userID}`).doc('userInfo').get().then((snapshot) => {
+        firestore().collection(`${videoOwnerID}`).doc('userInfo').get().then((snapshot) => {
             setUserInfo(snapshot.data());
         });
-    }, [userID])
+    }, [videoOwnerID])
 
 
     return loading ? <CircularLoadingBar/> : (

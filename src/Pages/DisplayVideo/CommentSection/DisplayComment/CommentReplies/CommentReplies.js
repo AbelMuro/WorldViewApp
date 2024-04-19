@@ -3,13 +3,13 @@ import {Container} from './styles.js';
 import firestore from '@react-native-firebase/firestore';
 const DisplayReply = lazy(() => import('./DisplayReply'));
 
-function CommentReplies({commentID, videoID, userID}){
+function CommentReplies({commentID, videoID, videoOwnerID}){
     const [allReplies, setAllReplies] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         firestore()
-            .collection(`${userID}/${videoID}/commentSection/${commentID}/commentReplies`).orderBy('order', 'desc')
+            .collection(`${videoOwnerID}/${videoID}/commentSection/${commentID}/commentReplies`).orderBy('order', 'desc')
             .onSnapshot((snapshot) => {
                     setLoading(true);        
                     let replies = [];
@@ -22,7 +22,7 @@ function CommentReplies({commentID, videoID, userID}){
                     setAllReplies(replies);
                     setLoading(false);              
             });   
-    }, [videoID, userID])
+    }, [videoID, videoOwnerID])
 
 
     return loading ? 
