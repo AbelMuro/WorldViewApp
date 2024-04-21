@@ -49,7 +49,6 @@ function Login() {
     }
 
     const handleAppleLogin = async () => {
-
         try{
             const appleAuthRequestResponse = await appleAuth.performRequest({
                 requestedOperation: appleAuth.Operation.LOGIN,
