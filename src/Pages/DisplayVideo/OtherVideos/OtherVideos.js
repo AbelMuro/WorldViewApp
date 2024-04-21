@@ -4,7 +4,6 @@ import {
     Container,
     Title
 } from './styles.js'
-import { useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 const Video = lazy(() => import('./Video'));
 

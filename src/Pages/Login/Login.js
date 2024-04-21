@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Platform, SafeAreaView} from 'react-native';
+import {Image, Platform, SafeAreaView, Alert} from 'react-native';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar';
 import icons from './icons';
@@ -40,11 +40,10 @@ function Login() {
                     imageURL: credentials.user.photoURL || '',
                     username: credentials.user.displayName || '',
                 });
-            
            Actions.account();
         }
         catch(error){
-            alert("Your google email is already being used by another account");
+            Alert.alert("Your google email is already being used by another account");
             console.log(error);
         }
     }
@@ -59,7 +58,8 @@ function Login() {
             
             // Ensure Apple returned a user identityToken
             if (!appleAuthRequestResponse.identityToken) {
-                throw new Error('Apple Sign-In failed - no identify token returned');
+                Alert.alert('Apple Sign-In failed - no identify token returned');
+                return;
             }
             
             // Create a Firebase credential from the response
@@ -76,10 +76,10 @@ function Login() {
                     imageURL: userCredentials.user.photoURL || '',
                     aboutMe: '',
                 });
-
             Actions.account();      
         }
         catch(error){
+            Alert.alert('Your email associated with your apple account is already being used')
             console.log(error);
         }
 

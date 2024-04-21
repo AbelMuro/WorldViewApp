@@ -6,7 +6,7 @@ export const AllVideos = styled.View`
     justify-content: center;
     align-items: center;
     gap: 40px;
-    margin: 30px auto 30px auto;
+    margin: 30px auto 70px auto;
 `
 
 export const Message = styled.Text`
