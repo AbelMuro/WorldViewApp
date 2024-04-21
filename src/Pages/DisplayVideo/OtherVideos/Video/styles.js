@@ -19,5 +19,5 @@ export const VideoThumbnail = Styled.Image`
 export const VideoTitle = Styled.Text`
     font-size: 26px;
     color: black;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
 `

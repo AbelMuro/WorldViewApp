@@ -4,7 +4,7 @@ export const Title = styled.Text `
     color: black;
     font-size: 25px;
     font-weight: 700;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     margin: 20px 0px 20px 0px;
     text-align: center;
 `

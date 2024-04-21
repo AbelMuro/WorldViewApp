@@ -13,7 +13,7 @@ export const LoginContainer = Styled.View`
 export const LoginTitle = Styled.Text`
     color: white;
     font-size: 24px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
     text-align: center;
 `
@@ -37,13 +37,13 @@ export const Button = Styled.Pressable`
 export const ButtonText = Styled.Text`
     color: black;
     font-size: 13px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
 `
 
 export const Message = Styled.Text`
     color: white;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
 `

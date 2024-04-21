@@ -15,7 +15,7 @@ export const Button = styled.Pressable`
 
 export const ButtonText = styled.Text`
     color: rgb(70, 70, 70);
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 11px;
     font-weight: 400;
     text-transform: uppercase;

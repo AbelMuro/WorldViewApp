@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/CrimsonText-Bold.ttf",
+      "sha1": "4079be58c5ebc634879a096cc63ad82d858ed2c9"
+    },
+    {
       "path": "assets/fonts/CrimsonText.ttf",
       "sha1": "61b3f0d113dcf62c7619aff1bae3a6646286720b"
     }

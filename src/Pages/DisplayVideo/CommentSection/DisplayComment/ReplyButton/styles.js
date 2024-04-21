@@ -17,7 +17,7 @@ export const ButtonText = styled.Text`
     color: rgb(77, 77, 77);
     font-size: 16px;
     font-weight: 400;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
 `
 
 export const LoadingContainer = styled.View`

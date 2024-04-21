@@ -12,7 +12,7 @@ export const UploadVideoButton = styled.Pressable`
 `
 
 export const ButtonText = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
@@ -46,7 +46,7 @@ export const UploadedFileContainer = styled.View`
 `
 
 export const UploadedFileName = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 700;
 `

@@ -11,7 +11,7 @@ export const UpdateAccountButton = styled.Pressable`
 `
 
 export const ButtonText = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;

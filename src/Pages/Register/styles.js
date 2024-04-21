@@ -11,13 +11,13 @@ export const RegisterContainer = styled.View`
     gap: 20px;
 `
 export const RegisterTitle = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 40px;
     font-weight: 700;
     color: white;
 `
 export const RegisterDesc = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     color: white;

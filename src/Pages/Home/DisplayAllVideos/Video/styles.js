@@ -11,7 +11,7 @@ export const VideoContainer = styled.View`
 
 export const VideoTitle = styled.Text`
     color: black;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     letter-spacing: -0.075px;
@@ -31,13 +31,13 @@ export const VideoOwnerImage = styled.Image `
 
 export const VideoOwner = styled.Text`
     color: black;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 700;
 `
 
 export const PostedDate = styled.Text`
     color: black;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
 `

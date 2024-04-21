@@ -29,7 +29,7 @@ export const CommentOwnerName = Styled.Text`
     width: 120px;
     color: black;
     font-size: 16px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
 `
 
@@ -37,7 +37,7 @@ export const Comment = Styled.Text`
     width: 190px; 
     color: black;
     font-size: 16px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 400;
     padding: 30px 15px;
 `
@@ -48,6 +48,6 @@ export const TimeStamp = Styled.Text`
     right: 10px;
     color: black;
     font-size: 16px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 500;
 `

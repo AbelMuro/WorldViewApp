@@ -11,7 +11,7 @@ export const Container = Styled.View`
 export const Title = Styled.Text`
     color: black;
     font-size: 30px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
     text-align: center;
 `

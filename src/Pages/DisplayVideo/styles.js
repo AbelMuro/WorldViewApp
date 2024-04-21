@@ -4,7 +4,7 @@ export const VideoTitle = styled.Text`
     width: 90%;
     margin: 0px auto 30px auto;
     color: black;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 24px;
     font-weight: 700;
 `
@@ -16,7 +16,7 @@ export const VideoUploaderImage = styled.Image`
 `
 
 export const VideoUploader = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     color: black;
@@ -33,7 +33,7 @@ export const Uploader = styled.View`
 export const PostedOn = styled.Text`
     width: 90%;
     color: black;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     margin: 0px auto 30px auto;

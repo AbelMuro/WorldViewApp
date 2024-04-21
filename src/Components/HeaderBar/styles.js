@@ -13,7 +13,7 @@ export const Header = styled.View `
 export const Title = styled.Text `
     color: white;
     font-size: 16px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
     text-transform: uppercase;
 `

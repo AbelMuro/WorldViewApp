@@ -22,7 +22,7 @@ export const AccountInfo = styled.View`
 export const UserName = styled.Text`
     color: white;
     font-size: 25px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 400;
     align-self: center;
 `
@@ -30,13 +30,13 @@ export const UserName = styled.Text`
 export const Title = styled.Text`
     color: white;
     font-size: 25px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
 `
 
 export const Detail = styled.Text`
     color: white;
     font-size: 25px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 400;
 `

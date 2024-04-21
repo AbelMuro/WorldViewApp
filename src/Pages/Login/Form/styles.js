@@ -13,7 +13,7 @@ export const LoginButton = Styled.Pressable`
 export const LoginText = Styled.Text`
     color: rgb(70, 70, 70);
     font-size: 14px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 400;
     letter-spacing: 0.075px;
     text-transform: uppercase;
@@ -22,5 +22,5 @@ export const ErrorMessage = Styled.Text`
     color: red;
     font-size: 14px;
     font-weight: 700;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
 `

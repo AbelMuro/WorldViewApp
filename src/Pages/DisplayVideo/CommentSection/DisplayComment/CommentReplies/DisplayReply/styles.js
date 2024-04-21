@@ -23,7 +23,7 @@ export const ReplyOwner = Styled.Text`
     width: 100px;
     color: black;
     font-size: 16px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
 `
 
@@ -32,7 +32,7 @@ export const Reply = Styled.Text`
     color: black;
     font-size: 16px;
     font-weight: 400;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     padding: 30px 15px;
 `
 
@@ -40,7 +40,7 @@ export const TimeStamp = Styled.Text`
     color: black;
     font-size: 16px;
     font-weight: 400;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     position: absolute;
     top: 10px;
     right: 10px;

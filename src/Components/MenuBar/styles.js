@@ -20,6 +20,6 @@ export const MenuLink = styled.Pressable `
 
 export const LinkText = styled.Text`
     color: white;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 400;
 `

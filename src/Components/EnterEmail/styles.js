@@ -1,7 +1,7 @@
 import styles from 'styled-components/native';
 
 export const ErrorMessage = styles.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     color: red;
     font-weight: 400;

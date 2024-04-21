@@ -31,6 +31,6 @@ export const NoCommentsContainer = Styled.View`
 export const NoComments = Styled.Text`
     color: black;
     font-size: 24px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 700;
 `

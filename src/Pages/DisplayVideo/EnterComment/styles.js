@@ -23,7 +23,7 @@ export const SubmitComment = styled.Pressable`
 
 export const ButtonText = styled.Text`
     color: rgb(70, 70, 70);
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.075px;

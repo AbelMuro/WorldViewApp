@@ -16,13 +16,13 @@ export const Button = styled.Pressable`
 export const ButtonText = styled.Text`
     color: black;
     font-size: 13px;
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-weight: 400;
     text-transform: uppercase;
 `
 
 export const ErrorMessage = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     color: red;

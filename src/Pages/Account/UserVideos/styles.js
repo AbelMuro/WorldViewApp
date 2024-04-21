@@ -10,7 +10,7 @@ export const AllVideos = styled.View`
 `
 
 export const Message = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     color: black;
@@ -30,7 +30,7 @@ export const VideoContainer = styled.View`
 `
 
 export const VideoTitle = styled.Text`
-    font-family: CrimsonText;
+    font-family: CrimsonText-Bold;
     font-size: 16px;
     font-weight: 400;
     color: black;
