@@ -19,25 +19,41 @@ export const Title = styled.Text `
 `
 
 export const GoBackButton = styled.Pressable`
-    width: 30px;
-    height: 10px;
+    width: 70px;
+    height: 40px;
     background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: 15px;
-    top: 25px;
+    left: 0px;
+    top: 10px;
 `
 
-export const LoginButton = styled.Pressable`
+export const AccountCircle = styled.View`
     width: 30px;
     height: 30px;
     background-color: white;
     border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const LoginButton = styled.Pressable`
+    width: 70px;
+    height: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    top: 15px;
-    right: 25px;
+    top: 10px;
+    right: 0px;
+`
+
+export const TitleContainer = styled.TouchableOpacity`
+    width: 150px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;

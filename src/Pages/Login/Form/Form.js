@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import { Formik, Field } from 'formik';
 import EnterEmail from '~/Components/EnterEmail';
 import EnterPassword from '~/Components/EnterPassword'
@@ -13,17 +13,21 @@ import {Actions} from 'react-native-router-flux';
 
 function Form() {
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (values) => {
         setError(false);
+        setLoading(true);
         let email = values.email;
         let password = values.password;
         try{
             const user = await auth().signInWithEmailAndPassword(email, password);
+            setLoading(false);
             Actions.account();
         }
         catch(error) {
             setError(true);
+            setLoading(false);
             console.log(error);
         }
     }
@@ -45,9 +49,9 @@ function Form() {
                                 </ErrorMessage>
                             }
                             <LoginButton onPress={handleSubmit}>
-                                <LoginText>
+                                {loading ? <ActivityIndicator/> : <LoginText>
                                     Log in
-                                </LoginText>
+                                </LoginText>}
                             </LoginButton>                  
                         </View>
                     )

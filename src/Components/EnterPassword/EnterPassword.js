@@ -11,7 +11,7 @@ const validate = (password) => {
 } 
 
 function EnterPassword({name}) {
-    const [field, meta, helpers] = useField({name, validate})
+    const [field, meta, helpers] = useField({name, validate});
 
     const style = {
         width: '100%',
@@ -30,10 +30,10 @@ function EnterPassword({name}) {
         borderColor: meta.error && meta.touched? 'red' : 'white',
     }
 
-
     return(
         <>
             <TextInput 
+                secureTextEntry={true}
                 name='password'
                 style={style}
                 onChangeText={helpers.setValue}

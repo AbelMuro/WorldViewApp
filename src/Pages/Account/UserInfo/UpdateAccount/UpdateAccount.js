@@ -10,8 +10,8 @@ import Dialog from "react-native-dialog";
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import {Actions} from 'react-native-router-flux';
 
-//remember to update permissions for android
 function UpdateAccount({username, aboutme}) {
     const [open, setOpen] = useState(false);
     const [newUserName, setNewUserName] = useState(username);
@@ -44,6 +44,10 @@ function UpdateAccount({username, aboutme}) {
     }
 
     const handleDialog = () => {
+        if(!auth().currentUser) {
+            Actions.login();
+            return;
+        }
         setOpen(!open);
     }
 
@@ -92,6 +96,9 @@ function UpdateAccount({username, aboutme}) {
             </UpdateAccountButton>        
             <Dialog.Container visible={open}>
                 <Dialog.Title>Update Account</Dialog.Title>
+                {!loading && <Dialog.Description>
+                    Press upload to select a new photo
+                </Dialog.Description>}
                 {!loading && <Dialog.Input value={newUserName} onChangeText={handleUsername} label='Username'/>}
                 {!loading && <Dialog.Input value={newAboutMe} onChangeText={handleAboutme} label='About Me'/>}
                 {loading && 
@@ -103,9 +110,9 @@ function UpdateAccount({username, aboutme}) {
                         <Image source={{uri: newImage.uri}} style={{width: 100, height: 100, borderRadius: 100}}/>
                     </UploadedImageContainer>
                 }
-                <Dialog.Button label='Upload' onPress={handleUpload} disabled={loading}/>
-                <Dialog.Button label="Cancel" onPress={handleCancel} disabled={loading}/>
-                <Dialog.Button label="Update" onPress={handleAccount} disabled={loading}/>
+                {!loading && <Dialog.Button label='Upload' onPress={handleUpload}/>}
+                {!loading && <Dialog.Button label="Cancel" onPress={handleCancel}/>}
+                {!loading && <Dialog.Button label="Update" onPress={handleAccount} />}
             </Dialog.Container>
         </>
 

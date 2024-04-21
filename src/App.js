@@ -5,7 +5,6 @@ import DisplayVideo from './Pages/DisplayVideo';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Account from './Pages/Account';
-import ReduxProvider from './Components/ReduxProvider';
 import auth from '@react-native-firebase/auth';
 import {Actions} from 'react-native-router-flux';
 
@@ -40,4 +39,4 @@ function App() {
     )
 }
 
-export default ReduxProvider(App);
+export default App;

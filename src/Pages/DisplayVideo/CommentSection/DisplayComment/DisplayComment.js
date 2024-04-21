@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {View} from 'react-native';
 import {
     Container,
@@ -19,7 +19,6 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
     const commentID = comment.commentID;
     const currentComment = comment.comment;
 
-
     useEffect(() => {
         firestore().collection(userID).doc('userInfo').get().then((snapshot) => {
             setUserInfo(snapshot.data());
@@ -32,6 +31,8 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
                 <View style={{width: '50px', display: 'flex', gap: 15}}>
                     <CommentOwnerImage
                         source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
+                        resizeMode='cover' 
+                        resizeMethod='resize'
                     />
                     <CommentOwnerName>
                         {userInfo.username}
@@ -50,4 +51,4 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
         )
 }
 
-export default DisplayComment
+export default memo(DisplayComment);

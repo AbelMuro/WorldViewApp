@@ -12,6 +12,7 @@ import {
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
+import {Actions} from 'react-native-router-flux';
 
 function UserInfo() {
     const [userInfo, setUserInfo] = useState({});
@@ -22,10 +23,12 @@ function UserInfo() {
         return dateCreated.toDateString();
     }
 
-
     useEffect(() => {
-        if(!auth().currentUser) return;
-        
+        if(!auth().currentUser) {
+            Actions.login();
+            return;
+        }
+
         const userDoc = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
         userDoc.onSnapshot((doc) => {
             setLoading(true);
@@ -38,7 +41,7 @@ function UserInfo() {
                 <AccountSection>
                     <AccountInfo>
                         {
-                            loading ? <Text>loading...</Text> : <AccountImage source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}/> 
+                            loading ? <Text>loading...</Text> : <AccountImage source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']} resizeMode='cover' resizeMethod='resize'/> 
                         }        
                         {
                             loading ? <Text>Loading </Text> : <UserName>{userInfo && userInfo.username}</UserName>

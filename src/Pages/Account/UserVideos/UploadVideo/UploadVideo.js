@@ -17,6 +17,7 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
+import {Actions} from 'react-native-router-flux';
 
 
 function UploadVideo() {
@@ -86,6 +87,11 @@ function UploadVideo() {
     }
 
     const handleDialog = () => {
+        if(!auth().currentUser) {
+            Actions.login();
+            return;
+        }
+            
         setOpen(!open);
     }
 

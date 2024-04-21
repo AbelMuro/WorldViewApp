@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {View} from 'react-native';
 import {
     ReplyContainer,
@@ -13,21 +13,21 @@ import icons from '~/Common/Icons';
 function DisplayReply({reply, userID}) {
     const [userInfo, setUserInfo] = useState({});
     const comment = reply.comment;
-    const commentID = reply.commentID;
     const timeStamp = reply.timeStamp;
-
 
     useEffect(() => {
         firestore().collection(userID).doc('userInfo').get().then((snapshot) => {
             setUserInfo(snapshot.data());
         })
     }, [userID])
-
+    
     return(
         <ReplyContainer>
             <View style={{display: 'flex', gap: 10}}>
                 <ReplyOwnerImage 
-                    source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}/>
+                    source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
+                    resizeMode='cover' 
+                    resizeMethod='resize'/>
                 <ReplyOwner>
                     {userInfo.username}
                 </ReplyOwner>                            
@@ -42,4 +42,4 @@ function DisplayReply({reply, userID}) {
     )
 }
 
-export default DisplayReply;
+export default memo(DisplayReply);

@@ -16,7 +16,7 @@ function CommentReplies({commentID, videoID, videoOwnerID}){
                     snapshot.forEach((doc) => {
                         let reply = doc.data();
                         replies.push(
-                            <DisplayReply reply={reply} key={reply.commentID} userID={reply.userID}/>
+                            <DisplayReply reply={reply} key={reply.commentID} userID={reply.userID} />
                         )
                     })
                     setAllReplies(replies);

@@ -42,7 +42,6 @@ function DisplayAllVideos({category}) {
             <Title>
                 Enjoy the videos uploaded by our users!
             </Title>  
-            
             {loading ? <CircularLoadingBar/>:    
                 <AllVideos>
                     {allVideos}

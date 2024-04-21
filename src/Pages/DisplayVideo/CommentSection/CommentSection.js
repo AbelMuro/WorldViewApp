@@ -1,14 +1,10 @@
-import React, {lazy, memo, useMemo, useEffect,useState} from 'react';
+import React, {lazy, memo, useEffect,useState} from 'react';
 import CircularLoadingBar from '~/Components/CircularLoadingBar';
-import {collection} from 'firebase/firestore';
-import {db} from '~/Firebase'
-import {useCollectionData} from 'react-firebase-hooks/firestore'
 import {
         MainContainer,
         NoCommentsContainer, 
         NoComments, 
 } from './styles.js';
-import { useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 const DisplayComment = lazy(() => import('./DisplayComment'));
 

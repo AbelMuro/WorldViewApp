@@ -55,6 +55,7 @@ function MenuBar() {
                     width: '100%',
                     height,
                     backgroundColor: 'rgb(37, 37, 37)',
+                    overflow: 'hidden'
                 }}>
                 {['All', 'Music', 'Funny', 'Sports', 'News', 'Other'].map((item) => {
                     return(

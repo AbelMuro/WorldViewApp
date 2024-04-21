@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import {useDispatch} from 'react-redux';
 import {
     VideoContainer, 
     VideoTitle, 
@@ -38,6 +37,8 @@ function Video({video, userID}) {
             <View style={{display: 'flex', gap: 10, flexDirection: 'row', alignItems: 'center'}}>
                 <VideoOwnerImage
                     source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
+                    resizeMode='cover' 
+                    resizeMethod='resize'
                 />
                 <VideoOwner>
                     {userInfo.username}

@@ -40,12 +40,13 @@ export const PostedOn = styled.Text`
 `
 
 export const LoadingVideo = styled.View`
-    display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    width: 100%;
+    width: 100px;
     height: 100px;
     position: absolute;
     top: 40%;
+    left: 40%;
+    background-color: rgba(37, 37, 37, 0.8);
 `

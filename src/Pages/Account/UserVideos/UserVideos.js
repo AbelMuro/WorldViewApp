@@ -11,10 +11,8 @@ import {
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {Actions} from 'react-native-router-flux';
-import { useDispatch } from 'react-redux';
 
 function UserVideos() {
-    const dispatch = useDispatch();
     const [videos, setVideos] = useState([]);
 
     const handleVideo = (video) => {

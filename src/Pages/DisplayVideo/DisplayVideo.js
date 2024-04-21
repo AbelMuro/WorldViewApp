@@ -16,7 +16,6 @@ import {
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
-import { LoadingContainer } from './CommentSection/DisplayComment/ReplyButton/styles.js';
 
 function DisplayVideo({videoOwnerID, videoID}) {
     const [userInfo, setUserInfo] = useState({});
@@ -38,15 +37,11 @@ function DisplayVideo({videoOwnerID, videoID}) {
         })
     }, [videoOwnerID, videoID])
 
-    useEffect(() => {
-        console.log(loading)
-    }, [loading])
-
     return !video ? <></> : (
         <SafeAreaView>
             <HeaderBar back={true}/>
             <MenuBar/>
-            <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200 }}>
+            <ScrollView style={{maxHeight: Dimensions.get('window').height - 140, minHeight: 200}}>
                 <View style={{position: 'relative'}}>
                     <Video
                         source={{uri: video.url}}
@@ -59,12 +54,12 @@ function DisplayVideo({videoOwnerID, videoID}) {
                         poster={video.thumbnail}
                         posterResizeMode='cover'
                         paused={true}
-                        style={{width: '100%', aspectRatio: 1}}
+                        style={{width: '100%', aspectRatio: 1, backgroundColor: 'black'}}
                         controls={true}
                         resizeMode='contain'
                     />     
                     {loading && <LoadingVideo>
-                            <ActivityIndicator size='large' color='red'/>
+                            <ActivityIndicator size='large' color='white'/>
                         </LoadingVideo>}                    
                 </View>
                 <VideoTitle>
@@ -81,7 +76,7 @@ function DisplayVideo({videoOwnerID, videoID}) {
                 <PostedOn>
                     <Text style={{fontWeight: 700}}>Posted on:</Text>   {video.timeCreated}
                 </PostedOn>
-                <EnterComment/>
+                <EnterComment videoOwnerID={video.userID} videoID={video.videoID}/>
                 <CommentSection videoOwnerID={video.userID} videoID={video.videoID}/>
                 <OtherVideos videoOwnerID={video.userID}/>
             </ScrollView>

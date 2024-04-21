@@ -2,14 +2,12 @@ import React, {useState, useEffect, memo} from 'react';
 import {View, TextInput, Alert} from 'react-native';
 import {SubmitComment, ButtonText} from './styles.js';
 import uuid from 'react-native-uuid';
-import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-function EnterComment() {
+function EnterComment({videoOwnerID, videoID}) {
     const [comment, setComment] = useState('');
     const [error, setError] = useState(false);
-    const video = useSelector(state => state.video.video);
 
     const styles = {
         input: {
@@ -49,7 +47,10 @@ function EnterComment() {
     }
 
     const handleSubmit = async () => {
-        if(isNotValidComment()) return;
+        if(isNotValidComment()){
+            Alert.alert('Please enter your comment');
+            return;
+        }
         if(!auth().currentUser){
             Alert.alert('You must be signed in to post a comment');
             return
@@ -76,7 +77,7 @@ function EnterComment() {
                 timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
             }
 
-            let commentCollectionRef = firestore().collection(`${video.userID}/${video.videoID}/commentSection`);
+            let commentCollectionRef = firestore().collection(`${videoOwnerID}/${videoID}/commentSection`);
             await commentCollectionRef.add(newComment)
             Alert.alert('Comment has been posted');
             setComment('');
@@ -84,7 +85,6 @@ function EnterComment() {
         catch(error){
             console.log(error);
         }
-            //theres one more thing i need to do here
     }
 
     useEffect(() => {
