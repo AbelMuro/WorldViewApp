@@ -78,7 +78,7 @@ function EnterComment({videoOwnerID, videoID}) {
             }
 
             let commentCollectionRef = firestore().collection(`${videoOwnerID}/${videoID}/commentSection`);
-            await commentCollectionRef.add(newComment)
+            await commentCollectionRef.doc(commentID).set(newComment);
             Alert.alert('Comment has been posted');
             setComment('');
         }

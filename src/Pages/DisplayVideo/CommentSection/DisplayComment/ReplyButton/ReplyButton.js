@@ -15,12 +15,14 @@ function ReplyButton({videoID, commentID, videoOwnerID}) {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
+
     const handleReply = (text) => {
         if(text.length < 100)
             setReply(text);
     }
 
     const handleOpen = () => {
+        console.log(commentID)
         if(!auth().currentUser){
             Alert.alert('You must be logged in to reply to a comment');
             return;

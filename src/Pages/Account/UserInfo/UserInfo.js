@@ -29,7 +29,6 @@ function UserInfo() {
             Actions.login();
             return;
         }
-
         const userDoc = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
         userDoc.onSnapshot((doc) => {
             setLoading(true);
@@ -42,7 +41,7 @@ function UserInfo() {
                 <AccountSection>
                     <AccountInfo>
                         {
-                            loading ? <Text>loading...</Text> : <AccountImage source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']} resizeMode='cover' resizeMethod='resize'/> 
+                            loading ? <Text>loading...</Text> : <AccountImage source={userInfo && userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']} resizeMode='cover' resizeMethod='resize'/> 
                         }        
                         {
                             loading ? <Text>Loading </Text> : <UserName>{userInfo && userInfo.username}</UserName>
