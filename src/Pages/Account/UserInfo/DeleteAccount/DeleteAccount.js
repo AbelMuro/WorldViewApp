@@ -11,19 +11,11 @@ function DeleteAccount() {
     const [open, setOpen] = useState(false);
 
     const handleOpen = async () => {
-        let user = auth().currentUser;
-        let uid = user.uid;
-
-        let allVideos = await firestore().collection(uid).get();
-
-        allVideos.forEach((video) => {
-            console.log(video.id)
-        });
         setOpen(!open);
     }
 
-    const deleteReplies = async (videosID, commentID) => {
-        let repliesRef = firestore().collection(`${videosID}/commentSection/${commentID}/commentReplies`);
+    const deleteReplies = async (uid, videoID, commentID) => {
+        let repliesRef = firestore().collection(`${uid}/${videoID}/commentSection/${commentID}/commentReplies`);
 
         let allReplies = await repliesRef.get();
         allReplies.forEach((reply) => {
@@ -32,12 +24,12 @@ function DeleteAccount() {
     }
 
 
-    const deleteComments = async (videoID) => {
-        let commentsRef = firestore().collection(`${videoID}/commentSection`);
+    const deleteComments = async (uid, videoID) => {
+        let commentsRef = firestore().collection(`${uid}/${videoID}/commentSection`);
 
         let allComments = await commentsRef.get();
         allComments.forEach(async (comment) => {
-            await deleteReplies(videoID, comment.id)
+            await deleteReplies(uid, videoID, comment.id)
             comment.ref.delete();
         });
     }
@@ -47,15 +39,18 @@ function DeleteAccount() {
             setOpen(false);
             let user = auth().currentUser;
             let uid = user.uid;
-            Actions.login();    
+            let developersVideos = firestore().collection('developers collection/allVideos/videoCollection');
 
-            let developersVideos = firestore().collection('developers collection/video collection');
+            //deleting the account
+            await user.delete();    
 
             //deleting all documents from collection
             let allVideos = await firestore().collection(uid).get();
             allVideos.forEach(async (video) => {
-                await developersVideos.doc(video.id).delete();
-                await deleteComments(video.id);
+                if(video.id !== 'userInfo');
+                    await developersVideos.doc(video.id).delete();
+                if(video.id !== 'userInfo')
+                    await deleteComments(uid, video.id);
                 video.ref.delete();
             });
 
@@ -65,14 +60,15 @@ function DeleteAccount() {
             files.items.forEach((file) => {
                 file.delete();
             })
-
-            //deleting the account
-            await user.delete();            
+            Actions.login();          
             Alert.alert('Account has been deleted');
             setOpen(false);
-
         }
         catch(error){
+            if(error.code === 'auth/requires-recent-login'){
+                Alert.alert('You must log in again before deleting your account');
+                Actions.login();
+            }
             console.log(error);
         }
     }

@@ -66,12 +66,13 @@ function Login() {
             const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
             
             // Sign the user in with the credential
-            let userCredentials = await auth().signInWithCredential(appleCredential);     
+            let userCredentials = await auth().signInWithCredential(appleCredential);    
+            let email = userCredentials.user.email;
 
             const userDoc = await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').get();
             if(!userDoc.exists)
                 await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').set({
-                    username: userCredentials.user.displayName || '',
+                    username: email.slice(0, email.indexOf('@')),
                     imageURL: userCredentials.user.photoURL || '',
                     aboutMe: '',
                 });

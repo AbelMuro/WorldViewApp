@@ -278,9 +278,9 @@ function UploadVideo() {
                         <LoadingContainer>
                             <ActivityIndicator size='medium' color='red'/>
                         </LoadingContainer>}
-                    <Dialog.Button label='Cancel' onPress={handleCancel} disable={loading}/>
-                    <Dialog.Button label='Upload' onPress={handleUpload} disable={loading}/>
-                    <Dialog.Button label='Submit' onPress={handleSubmit} disable={loading}/>
+                    {!loading && <Dialog.Button label='Cancel' onPress={handleCancel}/>}
+                    {!loading && <Dialog.Button label='Upload' onPress={handleUpload} />}
+                    {!loading && <Dialog.Button label='Submit' onPress={handleSubmit} />}
                 </Dialog.Container>
 
 
