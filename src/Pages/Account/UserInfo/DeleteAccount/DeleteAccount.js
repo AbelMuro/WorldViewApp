@@ -60,6 +60,7 @@ function DeleteAccount() {
             files.items.forEach((file) => {
                 file.delete();
             })
+            
             Actions.login();          
             Alert.alert('Account has been deleted');
             setOpen(false);
