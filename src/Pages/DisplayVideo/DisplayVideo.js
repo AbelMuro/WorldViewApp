@@ -16,6 +16,7 @@ import {
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
+import FlagVideo from './FlagVideo';
 
 function DisplayVideo({videoOwnerID, videoID}) {
     const [userInfo, setUserInfo] = useState({});
@@ -76,6 +77,7 @@ function DisplayVideo({videoOwnerID, videoID}) {
                 <PostedOn>
                     <Text style={{fontWeight: 700}}>Posted on:</Text>   {video.timeCreated}
                 </PostedOn>
+                <FlagVideo videoOwnerID={video.userID} videoID={video.videoID}/>
                 <EnterComment videoOwnerID={video.userID} videoID={video.videoID}/>
                 <CommentSection videoOwnerID={video.userID} videoID={video.videoID}/>
                 <OtherVideos videoOwnerID={video.userID}/>

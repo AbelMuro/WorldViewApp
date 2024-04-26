@@ -8,7 +8,6 @@ import {
 import firestore from '@react-native-firebase/firestore';
 const DisplayComment = lazy(() => import('./DisplayComment'));
 
-
 function CommentSection({videoID, videoOwnerID}) {
     const [allComments, setAllComments] = useState([]);
     const [loading, setLoading] = useState(false);

@@ -63,7 +63,8 @@ function EnterComment({videoOwnerID, videoID}) {
             const currentMinutes = currentDate.getMinutes();
             const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
             const commentID = uuid.v4();
-            let userInfoRef = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
+            let uid = auth().currentUser.uid;
+            let userInfoRef = firestore().collection(uid).doc('userInfo');
             let userInfo = await userInfoRef.get();
             userInfo = userInfo.data();
 
@@ -71,7 +72,9 @@ function EnterComment({videoOwnerID, videoID}) {
                 comment,
                 commentID,
                 username: userInfo.username,
-                userID: auth().currentUser.uid,
+                userID: uid,
+                videoOwnerID: videoOwnerID,
+                videoID: videoID,
                 userImage: userInfo.imageURL,
                 order: millisecondsSince1970,
                 timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
@@ -79,6 +82,9 @@ function EnterComment({videoOwnerID, videoID}) {
 
             let commentCollectionRef = firestore().collection(`${videoOwnerID}/${videoID}/commentSection`);
             await commentCollectionRef.doc(commentID).set(newComment);
+            let totalComments = firestore().collection(`${uid}/userInfo/allComments`).doc(commentID);
+            await totalComments.set(newComment);
+            
             Alert.alert('Comment has been posted');
             setComment('');
         }

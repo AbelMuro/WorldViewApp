@@ -48,15 +48,24 @@ function ReplyButton({videoID, commentID, videoOwnerID}) {
             const currentHour = ((currentDate.getHours() + 11) % 12 + 1);
             const currentMinutes = currentDate.getMinutes();
             const AmOrPm = currentDate.getHours() >= 12 ? "PM" : "AM";
+            let uid = auth().currentUser.uid
             let replyID = uuid.v4();
             let repliesRef = firestore().collection(`${videoOwnerID}/${videoID}/commentSection/${commentID}/commentReplies`);
-            await repliesRef.doc(replyID).set({
+            let replyCollection = firestore().collection(`${uid}/userInfo/allReplies`);
+
+            let replyComment = {
                 comment: reply,
+                commentBeingRepliedTo: commentID,
                 commentID: replyID,
                 order: millisecondsSince1970,
                 timeStamp: `${readableDate} ${currentHour}:${currentMinutes} ${AmOrPm}`,
-                userID: auth().currentUser.uid
-            })
+                userID: uid,
+                videoOwnerID,
+                videoID
+            }
+            await repliesRef.doc(replyID).set(replyComment);
+            await replyCollection.doc(replyID).set(replyComment);
+
             setLoading(false);
             setOpen(false);
         }catch(error){

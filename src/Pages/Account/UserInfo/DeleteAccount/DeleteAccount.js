@@ -44,6 +44,40 @@ function DeleteAccount() {
             //deleting the account
             await user.delete();    
 
+            let allComments = await firestore().collection(`${uid}/userInfo/allComments`).get();
+            allComments.forEach(async (doc) => {
+                let comment = doc.data();
+                let videoOwnerID = comment.videoOwnerID;
+                let videoID = comment.videoID;
+                let commentID = comment.commentID;
+                try{
+                    let videoComment = firestore().collection(`${videoOwnerID}/${videoID}/commentSection`).doc(commentID);
+                    await videoComment.delete();                    
+                }
+                catch(error){
+                    console.log(error)
+                }
+
+                doc.ref.delete();
+            })
+
+            let allReplies = await firestore().collection(`${uid}/userInfo/allReplies`).get();
+            allReplies.forEach(async (doc) => {
+                let reply = doc.data();
+                let videoOwnerID = reply.videoOwnerID;
+                let commentID = reply.commentBeingRepliedTo;
+                let videoID = reply.videoID;
+                let replyID = reply.commentID;
+                try{
+                    let commentReply = firestore().collection(`${videoOwnerID}/${videoID}/commentSection/${commentID}/commentReplies`).doc(replyID);
+                    await commentReply.delete();                    
+                }catch(error){
+                    console.log(error);
+                }
+
+                doc.ref.delete();
+            })
+
             //deleting all documents from collection
             let allVideos = await firestore().collection(uid).get();
             allVideos.forEach(async (video) => {

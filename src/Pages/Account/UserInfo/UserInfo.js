@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import UpdateAccount from './UpdateAccount';
 import DeleteAccount from './DeleteAccount';
-import {ScrollView, View, Text, Dimensions} from 'react-native';
+import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {
     AccountSection, 
@@ -71,9 +71,9 @@ function UserInfo() {
                             }                       
                         </View>    
                         {loading ? <Text>Loading </Text> : 
-                            <UpdateAccount 
-                                username={userInfo && userInfo.username} 
-                                aboutme={userInfo && userInfo.aboutMe}/>}
+                        <UpdateAccount 
+                            username={userInfo && userInfo.username} 
+                            aboutme={userInfo && userInfo.aboutMe}/>}
                         <DeleteAccount/>
                     </AccountInfo>
                 </AccountSection>

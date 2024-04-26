@@ -30,12 +30,12 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
             <CommentContainer>
                 <View style={{width: '50px', display: 'flex', gap: 15}}>
                     <CommentOwnerImage
-                        source={userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
+                        source={userInfo && userInfo.imageURL ? {uri: userInfo.imageURL} : icons['emptyAvatar']}
                         resizeMode='cover' 
                         resizeMethod='resize'
                     />
                     <CommentOwnerName>
-                        {userInfo.username}
+                        {userInfo && userInfo.username}
                     </CommentOwnerName>                                
                 </View>
                 <Comment>
