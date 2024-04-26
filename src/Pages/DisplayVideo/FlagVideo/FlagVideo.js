@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Linking} from 'react-native';
+import {Linking, Alert} from 'react-native';
 import Dialog from 'react-native-dialog';
 import { SvgXml } from 'react-native-svg';
 import {
@@ -8,11 +8,16 @@ import {
 } from './styles.js';
 import {flag} from './icons';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 function FlagVideo({videoOwnerID, videoID}) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
+        if(!auth().currentUser){
+            Alert.alert('You must be logged in to flag a video');
+            return;
+        }
         setOpen(!open);
     }
 
