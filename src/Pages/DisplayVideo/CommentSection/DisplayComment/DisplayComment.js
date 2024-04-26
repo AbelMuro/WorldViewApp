@@ -10,7 +10,9 @@ import {
 } from './styles.js';
 import CommentReplies from './CommentReplies';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import ReplyButton from './ReplyButton';
+import BlockButton from './BlockButton';
 import icons from '~/Common/Icons';
 
 function DisplayComment({comment, userID, videoID, videoOwnerID}) {
@@ -44,7 +46,8 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
                 <TimeStamp>
                     {timeStamp}
                 </TimeStamp>
-                <ReplyButton videoOwnerID={videoOwnerID} videoID={videoID} commentID={commentID}/>                         
+                <ReplyButton videoOwnerID={videoOwnerID} videoID={videoID} commentID={commentID}/>        
+                {auth().currentUser && auth().currentUser.uid !== userID &&  <BlockButton userID={userID}/>}
             </CommentContainer>                     
             <CommentReplies videoOwnerID={videoOwnerID} videoID={videoID} commentID={commentID}/>
         </Container>

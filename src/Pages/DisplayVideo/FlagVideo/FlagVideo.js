@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Linking, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import Dialog from 'react-native-dialog';
 import { SvgXml } from 'react-native-svg';
 import {
@@ -9,9 +9,11 @@ import {
 import {flag} from './icons';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import RNSmtpMailer from 'react-native-smtp-mailer';
 
 function FlagVideo({videoOwnerID, videoID}) {
     const [open, setOpen] = useState(false);
+    const [text, setText] = useState('');
 
     const handleOpen = () => {
         if(!auth().currentUser){
@@ -21,21 +23,22 @@ function FlagVideo({videoOwnerID, videoID}) {
         setOpen(!open);
     }
 
+    const handleText = (text) => {
+        setText(text);
+    }
+
     const handleFlag = async () => {
+        if(!text){
+            Alert.alert('Please enter the reason for flagging');
+            return;
+        }
         let videoRef = firestore().collection(videoOwnerID).doc(videoID);
         await videoRef.update({
             isFlagged: true
-        })
-        let devEmail = 'abelmuro93@gmail.com';
-        let subject = 'Video has been flagged'
-        let body = `The owner ID of the video is ${videoOwnerID} and the video ID is ${videoID}`
-        let mailtoUrl = `mailto:${devEmail}?subject=${subject}&body=${body}`;
-        try{
-            await Linking.openURL(mailtoUrl);
-        } catch(error){
-            console.log(error)
-        }
+        });
+
     }
+
 
     return(
         <>
@@ -49,8 +52,9 @@ function FlagVideo({videoOwnerID, videoID}) {
                     Are you sure you want to flag this video for objectionable content?
                 </Dialog.Title>
                 <Dialog.Description>
-                    This video contains obscene, indecent or offensive content that you find unsettling
+                    What does this video contain that you find offensive or unsettling?
                 </Dialog.Description>
+                <Dialog.Input value={text} onChangeText={handleText}/>
                 <Dialog.Button label='YES' onPress={handleFlag}/>                
                 <Dialog.Button label='NO' onPress={handleOpen}/>
             </Dialog.Container>

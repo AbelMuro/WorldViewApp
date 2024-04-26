@@ -44,6 +44,13 @@ function DeleteAccount() {
             //deleting the account
             await user.delete();    
 
+            //deleting blocked users
+            let blockedUsers = await firestore().collection(`${uid}/userInfo/BlockedUsers`).get();
+            blockedUsers.forEach((doc) => {
+                doc.ref.delete();
+            })
+
+
             let allComments = await firestore().collection(`${uid}/userInfo/allComments`).get();
             allComments.forEach(async (doc) => {
                 let comment = doc.data();
