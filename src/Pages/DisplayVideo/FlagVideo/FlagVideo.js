@@ -31,11 +31,12 @@ function FlagVideo({videoOwnerID, videoID}) {
             Alert.alert('Please enter the reason for flagging');
             return;
         }
+
+        //this is where i left off, i will need to log in with google somehow here
         try {
-            const response = await fetch('https://www.googleapis.com/gmail/v1/users/me/messages/send', {
+            const response = await fetch('https://www.googleapis.com/gmail/v1/users/abel-muro@world-view-videos.iam.gserviceaccount.com/messages/send', {
                     method: 'POST',
                     headers: {
-                        Authorization: `Bearer`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
