@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Platform, SafeAreaView, Alert} from 'react-native';
 import HeaderBar from '~/Components/HeaderBar';
 import MenuBar from '~/Components/MenuBar';
@@ -16,12 +16,28 @@ import { AppleButton, appleAuth} from '@invertase/react-native-apple-authenticat
 import auth from '@react-native-firebase/auth';
 import { Actions } from 'react-native-router-flux';
 import firestore from '@react-native-firebase/firestore';
+import Dialog from 'react-native-dialog';
 
 function Login() {
+    const [eula, setEula] = useState(false);
 
     const handleRegister = () => {
         Actions.register();
     } 
+
+    const handleAccept = async () => {
+        const userDocRef = firestore().collection(`${auth().currentUser.uid}`).doc('userInfo');
+        await userDocRef.update({
+            agreedToEULA: true
+        });
+        setEula(false);
+        Actions.account();
+    }
+
+    const handleDecline = async () => {
+        await auth().signOut();
+        setEula(false);
+    }    
 
     const handleGoogleLogin = async () => {
         GoogleSignin.configure({
@@ -66,23 +82,34 @@ function Login() {
             const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
             
             // Sign the user in with the credential
-            let userCredentials = await auth().signInWithCredential(appleCredential);    
-            let email = userCredentials.user.email;
+            const userCredentials = await auth().signInWithCredential(appleCredential);    
+            const email = userCredentials.user.email;
 
-            const userDoc = await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').get();
-            if(!userDoc.exists)
-                await firestore().collection(`${userCredentials.user.uid}`).doc('userInfo').set({
+            const userDocRef = firestore().collection(`${userCredentials.user.uid}`).doc('userInfo');
+            const userDoc =  await userDocRef.get();
+            if(!userDoc.exists){
+                await userDocRef.set({
                     username: email.slice(0, email.indexOf('@')),
                     imageURL: userCredentials.user.photoURL || '',
                     aboutMe: '',
-                });
-            Actions.account();      
+                    agreedToEULA: false,
+                });     
+                setEula(true);           
+            }
+            else {
+                let userInfo = await userDocRef.get();
+                userInfo = userInfo.data();
+                if(!userInfo.agreedToEULA) {
+                    setEula(true);
+                    return;
+                }
+                Actions.account();  
+            }  
         }
         catch(error){
             Alert.alert('Your email associated with your apple account is already being used')
             console.log(error);
         }
-
     }
 
     return(
@@ -94,10 +121,6 @@ function Login() {
                     Log in with your email and password
                 </LoginTitle>
                 <Form/>
-                {Platform.OS === 'android' &&
-                    <Message>
-                        ...or you can log in with Google
-                    </Message>}
                {Platform.OS === 'android' ? 
                     <Button onPress={handleGoogleLogin}>
                         <Image source={icons['google']} style={{width: 40, height: 40}}/>
@@ -116,7 +139,21 @@ function Login() {
                         Don't have an account? Register here.
                     </ButtonText>
                 </Button>
-            </LoginContainer>        
+            </LoginContainer>      
+            <Dialog.Container visible={eula}>
+                <Dialog.Title>
+                    End-user license agreement
+                </Dialog.Title>
+                <Dialog.Description>
+                    By creating this account, you must agree 
+                    that you will not upload any inappropriate videos 
+                    or abuse other users in this app. A breach in this agreement 
+                    will result in the video being taken down and/or the uploader being banned.
+                    Do you accept these terms?
+                </Dialog.Description>
+                <Dialog.Button label='ACCEPT' onPress={handleAccept}/>
+                <Dialog.Button label='DECLINE' onPress={handleDecline}/>
+            </Dialog.Container>  
         </SafeAreaView>
 
     )

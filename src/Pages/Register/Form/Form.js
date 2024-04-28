@@ -12,9 +12,11 @@ import {
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {Actions} from 'react-native-router-flux';
+import Dialog from 'react-native-dialog';
 
 function Form() {
     const [error, setError] = useState('');
+    const [eula, setEula] = useState(false);
     const [loading, setLoading] = useState(false)
 
     const validateForm = (values) => {
@@ -33,6 +35,10 @@ function Form() {
             errors['username'] = "Can't be empty"
         
         return errors;
+    }
+
+    const handleEula = () => {
+        setEula(!eula);
     }
 
     const handleSubmit = async (values) => {
@@ -55,6 +61,7 @@ function Form() {
         }
         
         try {
+            setEula(!eula);            
             let userCredentials = await auth().createUserWithEmailAndPassword(email, password);
             Alert.alert('Account has been created');
             await auth().currentUser.updateProfile({
@@ -63,7 +70,8 @@ function Form() {
             await firestore().collection(userCredentials.user.uid).doc('userInfo').set({
                 aboutMe: '',
                 imageURL: '',
-                username
+                username,
+                agreedToEULA: true,
             });     
             Actions.account();
         }
@@ -81,28 +89,46 @@ function Form() {
 
 
     return(
-        <Formik
-            initialValues={{username: '', email: '', password: ''}}
-            validate={validateForm}
-            onSubmit={handleSubmit}
-        >
-            {
-                ({handleSubmit}) => (
-                    <>
-                        <EnterUsername name='username'/>
-                        <EnterEmail name='email'/>
-                        <EnterPassword name='password'/>
-                        {error && <ErrorMessage>{error}</ErrorMessage>}
-                        <Button onPress={handleSubmit}>
-                            {loading ? <ActivityIndicator size='small' color='black'/> : 
-                                <ButtonText>
-                                    register
-                                </ButtonText>}
-                        </Button>
-                    </>
-                )
-            }
-        </Formik>
+        <>
+            <Formik
+                initialValues={{username: '', email: '', password: ''}}
+                validate={validateForm}
+                onSubmit={handleSubmit}
+            >
+                {
+                    ({handleSubmit}) => (
+                        <>
+                            <EnterUsername name='username'/>
+                            <EnterEmail name='email'/>
+                            <EnterPassword name='password'/>
+                            {error && <ErrorMessage>{error}</ErrorMessage>}
+                            <Button onPress={handleEula}>
+                                {loading ? <ActivityIndicator size='small' color='black'/> : 
+                                    <ButtonText>
+                                        register
+                                    </ButtonText>}
+                            </Button>
+
+                            <Dialog.Container visible={eula}>
+                                <Dialog.Title>
+                                    End-user license agreement
+                                </Dialog.Title>
+                                <Dialog.Description>
+                                    By creating this account, you must agree 
+                                    that you will not upload any inappropriate videos 
+                                    or abuse other users in this app. A breach in this agreement 
+                                    will result in the video being taken down and/or the uploader being banned.
+                                    Do you accept these terms?
+                                </Dialog.Description>
+                                <Dialog.Button label='ACCEPT' onPress={handleSubmit}/>
+                                <Dialog.Button label='DECLINE' onPress={handleEula}/>
+                            </Dialog.Container>
+                        </>
+                    )
+                }
+            </Formik>        
+        </>
+
     )
 }
 
