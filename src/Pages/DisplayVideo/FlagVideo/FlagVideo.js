@@ -32,22 +32,13 @@ function FlagVideo({videoOwnerID, videoID}) {
             return;
         }
 
-        //this is where i left off, i will need to log in with google somehow here
-        try {
-            const response = await fetch('https://www.googleapis.com/gmail/v1/users/abel-muro@world-view-videos.iam.gserviceaccount.com/messages/send', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        raw: 'BASE64_ENCODED_EMAIL_CONTENT', 
-                    }),
-                    });
-            const result = await response.json();
-            console.log('Email sent:', result);
-        } catch (error) {
-            console.error('Error sending email:', error);
-        }
+        //this is where i left off, 
+        let vid = firestore().collection('developers collection/flaggedVideos/flaggedVideoCollection').doc(videoID);
+        await vid.set({
+            blockedVideo: videoID,
+            userID: videoOwnerID,
+            reason: text
+        })
 
         Alert.alert('Video has been reported, please allow 24 hours for us to investigate');
         setOpen(false);
