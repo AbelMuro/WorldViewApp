@@ -9,6 +9,8 @@ import {
 } from './styles.js';
 import firestore from '@react-native-firebase/firestore';
 import icons from '~/Common/Icons';
+import BlockButton from '~/Components/BlockButton';
+import auth from '@react-native-firebase/auth';
 
 function DisplayReply({reply, userID}) {
     const [userInfo, setUserInfo] = useState({});
@@ -38,6 +40,7 @@ function DisplayReply({reply, userID}) {
             <TimeStamp>
                 {timeStamp}
             </TimeStamp>
+            {(auth().currentUser && auth().currentUser.uid !== userID) && <BlockButton userID={userID} styles={{right: 10}}/>}
         </ReplyContainer>
     )
 }

@@ -9,7 +9,6 @@ import {
 import {flag} from './icons';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import RNSmtpMailer from 'react-native-smtp-mailer';
 
 function FlagVideo({videoOwnerID, videoID}) {
     const [open, setOpen] = useState(false);
@@ -32,11 +31,25 @@ function FlagVideo({videoOwnerID, videoID}) {
             Alert.alert('Please enter the reason for flagging');
             return;
         }
-        let videoRef = firestore().collection(videoOwnerID).doc(videoID);
-        await videoRef.update({
-            isFlagged: true
-        });
+        try {
+            const response = await fetch('https://www.googleapis.com/gmail/v1/users/me/messages/send', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        raw: 'BASE64_ENCODED_EMAIL_CONTENT', 
+                    }),
+                    });
+            const result = await response.json();
+            console.log('Email sent:', result);
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
 
+        Alert.alert('Video has been reported, please allow 24 hours for us to investigate');
+        setOpen(false);
     }
 
 
@@ -54,7 +67,7 @@ function FlagVideo({videoOwnerID, videoID}) {
                 <Dialog.Description>
                     What does this video contain that you find offensive or unsettling?
                 </Dialog.Description>
-                <Dialog.Input value={text} onChangeText={handleText}/>
+                <Dialog.Input value={text} onChangeText={handleText} multiline={true} height={100}/>
                 <Dialog.Button label='YES' onPress={handleFlag}/>                
                 <Dialog.Button label='NO' onPress={handleOpen}/>
             </Dialog.Container>

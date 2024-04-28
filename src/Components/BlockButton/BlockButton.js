@@ -8,7 +8,7 @@ import Dialog from 'react-native-dialog';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-function BlockButton({userID}) {
+function BlockButton({userID, styles}) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -21,7 +21,6 @@ function BlockButton({userID}) {
             return;
         }
         const uid = auth().currentUser.uid;
-
         try{
             await firestore().collection(`${uid}/userInfo/BlockedUsers`).doc(userID).set({
                 blockedUser: userID
@@ -36,7 +35,7 @@ function BlockButton({userID}) {
 
     return(
         <>
-            <Button onPress={handleOpen}> 
+            <Button onPress={handleOpen} style={styles && styles}> 
                 <ButtonText>
                     Block
                 </ButtonText>

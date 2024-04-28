@@ -12,7 +12,7 @@ import CommentReplies from './CommentReplies';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import ReplyButton from './ReplyButton';
-import BlockButton from './BlockButton';
+import BlockButton from '~/Components/BlockButton';
 import icons from '~/Common/Icons';
 
 function DisplayComment({comment, userID, videoID, videoOwnerID}) {
@@ -27,7 +27,7 @@ function DisplayComment({comment, userID, videoID, videoOwnerID}) {
         })
     }, [userID])
 
-    return(                        
+    return (                        
         <Container>
             <CommentContainer>
                 <View style={{width: '50px', display: 'flex', gap: 15}}>
