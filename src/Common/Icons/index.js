@@ -1,3 +1,3 @@
-import emptyAvatar from './emptyavatar.png';
+import emptyAvatar from './emptyavatar.jpg';
 
 export default {emptyAvatar};

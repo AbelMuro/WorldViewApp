@@ -8,7 +8,6 @@ import Account from './Pages/Account';
 import auth from '@react-native-firebase/auth';
 import {Actions} from 'react-native-router-flux';
 
-//i need to add a new search component
 function App() {
 
     const onAuthStateChanged = (user) => {
